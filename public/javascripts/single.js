@@ -29,14 +29,14 @@ oneBike.forEach(function(doc,err){
   if(doc.route[0]==null){
         lat=52.521079;
         lng=13.378048;
-        console.log(doc.route[0]);
+        //console.log(doc.route[0]);
   }else{
   var lat = parseFloat(doc.route[0].latitude);
   var lng = parseFloat(doc.route[0].longitude);
   var bicycle_uuid = (doc.bicycle_uuid);
   var started = getDate(doc.started);
   var ended = getDate(doc.ended);
-  console.log(doc.route[0].longitude);
+  //console.log(doc.route[0].longitude);
   startPoint.push(lat);
   startPoint.push(lng);
   startMarker = L.marker(startPoint,{icon: blueIcon});

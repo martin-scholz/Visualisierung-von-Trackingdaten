@@ -17,7 +17,7 @@ startMarkerTwentyFourHours.clearLayers();
 // map.removeLayer(geoJsonLayer);
 // map.removeLayer(startMarkerTwentyFourHours);
 map.removeLayer(mainLayerGroup);
-console.log(startMarkerTwentyFourHours  + "hallo");
+//console.log(startMarkerTwentyFourHours);
 //if(data.started <= new Date().getTime()/1000 && data.started >= (new Date().getTime()/1000)-604800){
 data.forEach(function(doc,err){
   point = [];
@@ -31,7 +31,7 @@ data.forEach(function(doc,err){
               point.push(lat);
               point.push(lng);
   pointsTwentyFour.push(point);
-  console.log(pointsTwentyFour.length);
+  //console.log(pointsTwentyFour.length);
   marker = L.marker(point,{icon: yellowIcon});
   //marker = getPopup(marker, lat, lng, bicycle_uuid,"start", started);
   marker.addTo(startMarkerTwentyFourHours);
