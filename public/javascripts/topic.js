@@ -3,8 +3,8 @@
 
 
 
-     var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+     var osmLayer = L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="//osm.org/copyright">OpenStreetMap</a> contributors'
         });
         var map = L.map('map', {layers: [osmLayer], maxZoom:20}).setView([52.521079,13.378048], 13);
      var baseMaps = {
@@ -38,21 +38,21 @@
 
 
       var blueIcon = new L.Icon({
-        iconUrl: 'http://localhost:5000/images/marker-icon-2x-blue.png',
+        iconUrl: '//localhost:5000/images/marker-icon-2x-blue.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
         });
       var redIcon = new L.Icon({
-        iconUrl: 'http://localhost:5000/images/marker-icon-2x-red.png',
+        iconUrl: '//localhost:5000/images/marker-icon-2x-red.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
         shadowSize: [41, 41]
         });
       var yellowIcon = new L.Icon({
-        iconUrl: 'http://localhost:5000/images/marker-icon-2x-yellow.png',
+        iconUrl: '//localhost:5000/images/marker-icon-2x-yellow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
