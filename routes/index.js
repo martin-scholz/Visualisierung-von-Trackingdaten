@@ -21,7 +21,7 @@ var JsonSchema = new Schema({
 });
 
 // Mongoose Model definition
-var Json = mongoose.model('JString', JsonSchema, 'coords');
+var Json = mongoose.model('JString', JsonSchema, '_trips');
 
 /* GET home page. */
 router.get('/', function(req, res) {
