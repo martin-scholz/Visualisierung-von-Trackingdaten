@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 
 // Mongoose connection to MongoDB
 //mongoose.connect('mongodb://localhost/trips', function (error) {
-mongoose.connect('mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/_trips', function (error) {
+MONGOLAB_URI='mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(process.env.MONGOLAB_URI, function (error) {
     if (error) {
         console.log(error);
     }
