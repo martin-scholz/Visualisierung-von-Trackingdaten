@@ -1,11 +1,12 @@
 
      var googleLayer = new L.Google('SATELLITE');
 
-     var map = L.map('map', {layers: [googleLayer], maxZoom:20}).setView([52.521079,13.378048], 13);
+
 
      var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         });
+        var map = L.map('map', {layers: [osmLayer], maxZoom:20}).setView([52.521079,13.378048], 13);
      var baseMaps = {
      "Satellitenkarte": googleLayer,
      "Strassenkarte": osmLayer
