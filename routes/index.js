@@ -10,6 +10,7 @@ MONGODB_URI='mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
 mongoose.connect(process.env.MONGODB_URI, function (error) {
     if (error) {
         console.log(error);
+        console.log("erronot connected");
     }
 });
 
