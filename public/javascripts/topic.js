@@ -38,7 +38,7 @@
 
 
       var blueIcon = new L.Icon({
-        iconUrl: 'localhost:5000/images/marker-icon-2x-blue.png',
+        iconUrl: './images/marker-icon-2x-blue.png',
         //iconUrl: './images/marker-icon-2x-blue.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
@@ -46,7 +46,7 @@
         shadowSize: [41, 41]
         });
       var redIcon = new L.Icon({
-        iconUrl: 'localhost:5000/images/marker-icon-2x-red.png',
+        iconUrl: './images/marker-icon-2x-red.png',
         //iconUrl: './images/marker-icon-2x-red.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
@@ -54,7 +54,7 @@
         shadowSize: [41, 41]
         });
       var yellowIcon = new L.Icon({
-        iconUrl: 'localhost:5000/images/marker-icon-2x-yellow.png',
+        iconUrl: './images/marker-icon-2x-yellow.png',
         //iconUrl: './images/marker-icon-2x-yellow.png',
         iconSize: [25, 41],
         iconAnchor: [12, 41],
