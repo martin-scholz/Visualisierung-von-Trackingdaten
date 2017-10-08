@@ -21,21 +21,21 @@ block content
         p  
         .well
           legend Bitte wählen Sie einen Zeitraum aus:
-          input#inputDefault.form-control(type='text', name='daterange', value='01.04.2017 13:00 - 15.05.2017 16:00')
-          
+          input#inputDefault.form-control(type='text', name='daterange', value='01/01/2017 0:00 PM - 30/10/2017 0:00 PM')    
           br
+          form#form1
+            br
+            legend Wochentag: 
+            span#spanOutputDays
           br
+          #sliderDays
           br
-          legend Stunde:
+          form#form1
+            br
+            legend Stunde: 
+            span#spanOutputHours
           br
-          //#sliderHours
-          input#sliderDays(type='text')
-          br
-          br
-          legend Stunde:
-          br
-          //#sliderHours
-          input#sliderHours(type='text')
+          #sliderHours
           br
           legend Suche:
           p
@@ -51,6 +51,9 @@ block content
         .well
           legend Map Legend
           #leg
+          br
+          br
+          br
           br
           br
           br

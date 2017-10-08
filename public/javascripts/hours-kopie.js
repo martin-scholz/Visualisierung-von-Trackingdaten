@@ -1,19 +1,15 @@
-(function () {
-  $(document).ready(function () {
-    //var outputSpan = $("#spanOutputHours"); //not longer needed
-    var mySlider = $("#sliderHours").bootstrapSlider({
+(function() {
+  $(document).ready(function() {
+    var outputSpan = $("#spanOutputHours");
+    $("#sliderHours").slider({
       range: true,
       min: 0,
       max: 24,
-      tooltip: 'always',
-      handle: 'round'
-
-    });
-    var value = mySlider.bootstrapSlider('getValue');
-    mySlider.bootstrapSlider('setValue', [1, 5]);
-    //console.log(value);
-    $("#sliderHours").on('slide', function (ev) {
-        console.log(ev.value[1]);
+      values: [ 0, 23],
+      slide: function(event, ui) {
+        outputSpan.html(ui.values[0] + "-" + ui.values[1]);
+        //markerAverageDays.clearLayers();
+        //markerAverageHour.clearLayers();
         daysLayer.clearLayers();
         hoursLayer.clearLayers();
         startMarkerLayer.clearLayers();
@@ -72,13 +68,7 @@
         //map.addLayer(markerAverageHour);
         startHeatmap = showHeatMap(pointsHour);
         startMarkerHeat.addLayer(startHeatmap);
-
-
-
-
-
-
-
+      }
     });
   });
 }());

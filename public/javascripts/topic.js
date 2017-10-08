@@ -78,21 +78,21 @@ var overLay = {
 
 
 var blueIcon = new L.Icon({
-  iconUrl: 'http://localhost:3000/images/marker-icon-2x-blue.png',
+  iconUrl: './images/marker-icon-2x-blue.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 var redIcon = new L.Icon({
-  iconUrl: 'http://localhost:3000/images/marker-icon-2x-red.png',
+  iconUrl: './images/marker-icon-2x-red.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 var yellowIcon = new L.Icon({
-  iconUrl: 'http://localhost:3000/images/marker-icon-2x-yellow.png',
+  iconUrl: './images/marker-icon-2x-yellow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -126,6 +126,7 @@ var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
 var sliderDaysVal_s = 0;
 var sliderDaysVal_e = 0;
+var dataForSliders =[];
 
 var data = [];
 
@@ -140,7 +141,7 @@ var polylineOptions = {
 var setControl;
 
 
-$("#myFilterSelect").val("Alle");
+//$("#myFilterSelect").val("Alle");
 $.getJSON('/trackdata', function(result) {
   data = result;
   var points = [];
@@ -257,12 +258,19 @@ $(function() {
   }, function(start, end, label) {
     //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
     showDate(start.format('YYYY/MM/DD/h'), end.format('YYYY/MM/DD/h'));
+    $(document).ready(function() {
+      var outputSpan = $("#spanOutputDays");
+      $("#sliderDays").slider({values:[1,7]})
+    });
+  $(document).ready(function() {
+    var outputSpan = $("#spanOutputHours");
+    $("#sliderHours").slider({values:[0,23]})
   });
+});
 });
 
 function showDate(eins, zwei) {
   startMarkerLayer.clearLayers();
-  console.log("müsste jetzt geleert sein");
   endMarkerLayer.clearLayers();
   startMarkerHeat.clearLayers();
   endMarkerHeat.clearLayers();
@@ -270,8 +278,8 @@ function showDate(eins, zwei) {
   endClusterGroup.clearLayers();
   var s = getUTCStart(eins);
   var e = getUTCEnd(zwei);
-  var pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
-  var pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
+  pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
+  pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
   //alert(pickerVal_start +'' + pickerVal_end);
 
   getLayerTimeRange(pickerVal_start, pickerVal_end);
@@ -308,6 +316,7 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
       console.log(getDate(doc.started));
+      dataForSliders.push(doc);
       if (doc.route[0] == null) {
         lat = 52.521079;
         lng = 13.378048;
