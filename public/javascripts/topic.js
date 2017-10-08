@@ -136,8 +136,8 @@ var polylineOptions = {
   weight: 6,
   opacity: 0.9
 };
-// var pickerVal_start;
-// var pickerVal_end;
+ var pickerVal_start;
+ var pickerVal_end;
 var setControl;
 
 

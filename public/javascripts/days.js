@@ -1,19 +1,59 @@
-(function () {
-  $(document).ready(function () {
-    //var outputSpan = $("#spanOutputHours"); //not longer needed
-    var mySlider = $("#sliderDays").bootstrapSlider({
+(function() {
+  $(document).ready(function() {
+    var outputSpan = $("#spanOutputDays");
+    $("#sliderDays").slider({
       range: true,
       min: 1,
       max: 7,
-      tooltip: 'always',
-      handle: 'round'
+      values: [ 1, 7],
+      slide: function(event, ui) {
 
-    });
-    var value = mySlider.bootstrapSlider('getValue');
-    mySlider.bootstrapSlider('setValue', [1, 5]);
-    //console.log(value);
-    $("#sliderDays").on('slide', function (ev) {
-        console.log(ev.value[1]);
+        switch (ui.values[0]) {
+          case 1:
+            day1 = "So";
+            break;
+          case 2:
+            day1 = "Mo";
+            break;
+          case 3:
+            day1 = "Di";
+            break;
+          case 4:
+            day1 = "Mi";
+            break;
+          case 5:
+            day1 = "Do";
+            break;
+          case 6:
+            day1 = "Fr";
+            break;
+          case 7:
+            day1 = "Sa";
+        }
+        switch (ui.values[1]) {
+          case 1:
+            day2 = "So";
+            break;
+          case 2:
+            day2 = "Mo";
+            break;
+          case 3:
+            day2 = "Di";
+            break;
+          case 4:
+            day2 = "Mi";
+            break;
+          case 5:
+            day2 = "Do";
+            break;
+          case 6:
+            day2 = "Fr";
+            break;
+          case 7:
+            day2 = "Sa";
+        }
+
+        outputSpan.html(day1 + "-" + day2);
         startMarkerLayer.clearLayers();
         endMarkerLayer.clearLayers();
         startMarkerHeat.clearLayers();
@@ -70,12 +110,7 @@
         //map.addLayer(markerAverageDays);
         startHeatmap = showHeatMap(pointsDay);
         startMarkerHeat.addLayer(startHeatmap);
-
-
-
-
-
-
+      }
     });
   });
 }());
