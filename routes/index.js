@@ -6,14 +6,14 @@ var mongoose = require('mongoose');
 
 // Mongoose connection to MongoDB
 // Mongoose connection to MongoDB
- mongoose.connect('mongodb://localhost/trips', function (error) {
-// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-// mongoose.connect(MONGOLAB_URI);
+ //mongoose.connect('mongodb://localhost/trips', function (error) {
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+ mongoose.connect(MONGOLAB_URI);
 //, function (error) {
-    if (error) {
-        console.log(error);
-    }
-});
+//     if (error) {
+//         console.log(error);
+//     }
+// });
 
 // Mongoose Schema definition
 var Schema = mongoose.Schema;
