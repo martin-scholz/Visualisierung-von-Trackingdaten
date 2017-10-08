@@ -1,195 +1,369 @@
-
-     var googleLayer = new L.Google('SATELLITE');
-
-
-
-     var osmLayer = L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        });
-        var map = L.map('map', {layers: [googleLayer], maxZoom:20}).setView([52.521079,13.378048], 13);
-     var baseMaps = {
-     "Satellitenkarte": googleLayer,
-     "Strassenkarte": osmLayer
-     };
-
-     var geoJsonLayer = L.geoJson(berlin_bezirke,
-      {
-       style: function(feature) {
-           switch (feature.properties.name) {
-               case 'Mitte': return {color: "#ff0000"};
-               case 'Friedrichshain-Kreuzberg':   return {color: "#0000ff"};
-               case 'Pankow': return {color: "#ff0000"};
-                     case 'Charlottenburg-Wilmersdorf':   return {color: "#0000ff"};
-               case 'Spandau': return {color: "#ff0000"};
-                     case 'Steglitz-Zehlendorf':   return {color: "#0000ff"};
-               case 'Tempelhof-Schöneberg': return {color: "#ff0000"};
-                     case 'Neukölln':   return {color: "#0000ff"};
-               case 'Treptow-Köpenick': return {color: "#ff0000"};
-                     case 'Marzahn-Hellersdorf':   return {color: "#0000ff"};
-               case 'Reinickendorf':   return {color: "#0000ff"};
-               case 'Lichtenberg': return {color: "#ff0000"};
-
-           }
-       }
-     });
-     var overLay = {
-       "Bezirke" : geoJsonLayer
-     }
-
-
-      var blueIcon = new L.Icon({
-        iconUrl: './images/marker-icon-2x-blue.png',
-        //iconUrl: './images/marker-icon-2x-blue.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-        });
-      var redIcon = new L.Icon({
-        iconUrl: './images/marker-icon-2x-red.png',
-        //iconUrl: './images/marker-icon-2x-red.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-        });
-      var yellowIcon = new L.Icon({
-        iconUrl: './images/marker-icon-2x-yellow.png',
-        //iconUrl: './images/marker-icon-2x-yellow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-        });
-
-
-        var starts = new L.LayerGroup();
-        var startMarkerLayer = new L.LayerGroup();
-        var endMarkerLayer = new L.LayerGroup();
-        var singleTrackMarker = new L.LayerGroup();
-        var startMarkerLastSevenDays = new L.LayerGroup();
-        var startMarkerTwentyFourHours = new L.LayerGroup();
-        var mainLayerGroup = new L.layerGroup();
-        var startClusterGroup = new L.MarkerClusterGroup();
-        var endClusterGroup = new L.MarkerClusterGroup();
-        var startMarkerHeat = new L.LayerGroup();//HeatmapLayer
-        var endMarkerHeat = new L.LayerGroup();//HeatmapLayer
-        var startHeatmap;
-        var startMarkerCluster = new L.LayerGroup();
-        var endMarkerCluster = new L.LayerGroup();
-        var endHeatmap = true;
-        var overLaysStart;
-        var data = [];
-        var pointsTwentyFour =[];
-        var polylineOptions = {
-               color: 'blue',
-               weight: 6,
-               opacity: 0.9
-             };
-
-
-        $.getJSON('/trackdata',function(result){
-
-          data = result;
-          var spoints =[];
-
-          var boundaryPoints = [];
-          //console.log(data);
-        result.forEach(function(doc,err){
-        var spoint=[];
-        console.log("reached");
-        console.log(doc);
-
-        if(doc.route[0]==null){
-              lat=52.521079;
-              lng=13.378048;
-            }else{
-        var lat = parseFloat(doc.route[0].latitude);
-        var lng = parseFloat(doc.route[0].longitude);
-                  spoint.push(lat);
-                  spoint.push(lng);
-
-        var bicycle_uuid = (doc.bicycle_uuid);
-        var started = getDate(doc.started);
-        console.log(bicycle_uuid);
-        spoints.push(spoint);
-        marker = L.marker(spoint,{icon: blueIcon});
-
-        marker = getPopup(marker, lat, lng, bicycle_uuid,"start", started);
-        marker.addTo(startMarkerLayer);
-        startClusterGroup.addLayer(marker);
-
-
-
-        }
-        });
-        startHeatmap = showHeatMap(spoints);
-        startMarkerHeat.addLayer(startHeatmap);
-        startMarkerCluster.addLayer(startClusterGroup);
-        ends(data);
+var googleLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
 
-        /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-            function getDate(utc) {
-            var dt = new Date(utc * 1000);
-            return dt + '<br>';
 
-            }
+var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+});
+var map = L.map('map', {
+  layers: [googleLayer],
+  maxZoom: 20
+}).setView([52.521079, 13.378048], 13);
+var baseMaps = {
+  "Satellitenkarte": googleLayer,
+  "Strassenkarte": osmLayer
+};
 
-            function showHeatMap(points){
-              if(heat){
-                console.log(heat);
-                map.removeLayer(heat);
-                console.log(heat);
-                console.log("heat removed");
-              }
-            heatPointArray = points.map(function (p) { return [p[0], p[1]]; });
+var geoJsonLayer = L.geoJson(berlin_bezirke, {
+  style: function(feature) {
+    switch (feature.properties.name) {
+      case 'Mitte':
+        return {
+          color: "#ff0000"
+        };
+      case 'Friedrichshain-Kreuzberg':
+        return {
+          color: "#0000ff"
+        };
+      case 'Pankow':
+        return {
+          color: "#ff0000"
+        };
+      case 'Charlottenburg-Wilmersdorf':
+        return {
+          color: "#0000ff"
+        };
+      case 'Spandau':
+        return {
+          color: "#ff0000"
+        };
+      case 'Steglitz-Zehlendorf':
+        return {
+          color: "#0000ff"
+        };
+      case 'Tempelhof-Schöneberg':
+        return {
+          color: "#ff0000"
+        };
+      case 'Neukölln':
+        return {
+          color: "#0000ff"
+        };
+      case 'Treptow-Köpenick':
+        return {
+          color: "#ff0000"
+        };
+      case 'Marzahn-Hellersdorf':
+        return {
+          color: "#0000ff"
+        };
+      case 'Reinickendorf':
+        return {
+          color: "#0000ff"
+        };
+      case 'Lichtenberg':
+        return {
+          color: "#ff0000"
+        };
 
-            var heat = L.heatLayer(heatPointArray);
-
-            return heat;
-            }
-
-
-            function getPopup(marker, lat, lng, bicycle_uuid, label, startend){
-              marker.url = 'single';
-
-              marker.setOpacity(0.9)
-                    .bindPopup("Lat: " + lat +"\nlng: " + lng +"\nbikeId: "  + bicycle_uuid + "\n" + label + "ed: " + startend)
-                    .on('mouseover', function (e) { this.openPopup();})
-                    .on('click', function (e) { //window.open(this.url);
-
-                                                singleTrack(bicycle_uuid);
-                                                $(document).ready(function(){
-                                                  $("#heatmap").hide();
-                                                  $(".heat_item").hide();
-                                                  $("#markermap").hide();
-                                                  $(".marker_item").hide();
-                                                });
-                                              })
-                    .on('mouseout', function (e) {this.closePopup();})
-              return marker;
-            }
-            start= {"Alle Starts": starts}
-
-            overLaysStart = {
-                              "Marker (Start)" : startMarkerLayer,
-                              "Heatmap (Start)" : startMarkerHeat,
-                              "MarkerCluster (Start)" : startMarkerCluster,
-                              "Marker (End)" : endMarkerLayer,
-                              "Heatmap (End)" : endMarkerHeat,
-                              "MarkerCluster (End)" : endMarkerCluster,
-                              "Bezirke (Start)": geoJsonLayer
-                            }
-            var overLayStartCon = L.control.layers(baseMaps,overLaysStart);
-            overLayStartCon.addTo(map);
+    }
+  }
+});
+var overLay = {
+  "Bezirke": geoJsonLayer
+}
 
 
-            mainLayerGroup.addLayer(startMarkerLayer)
-            .addLayer(startMarkerHeat)
-            .addLayer(endMarkerLayer)
-            .addLayer(endMarkerHeat)
-            .addLayer(startMarkerCluster)
-            .addLayer(endMarkerCluster)
-            .addLayer(geoJsonLayer);
+var blueIcon = new L.Icon({
+  iconUrl: 'http://localhost:3000/images/marker-icon-2x-blue.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+var redIcon = new L.Icon({
+  iconUrl: 'http://localhost:3000/images/marker-icon-2x-red.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+var yellowIcon = new L.Icon({
+  iconUrl: 'http://localhost:3000/images/marker-icon-2x-yellow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+
+var starts = new L.LayerGroup();
+var startMarkerLayer = new L.LayerGroup();
+var endMarkerLayer = new L.LayerGroup();
+var singleTrackMarker = new L.LayerGroup();
+var startMarkerLastSevenDays = new L.LayerGroup();
+
+var markerAverageHour = new L.LayerGroup();
+var markerAverageDays = new L.LayerGroup();
+var mainLayerGroup = new L.LayerGroup();
+var startClusterGroup = new L.MarkerClusterGroup();
+var endClusterGroup = new L.MarkerClusterGroup();
+var startMarkerHeat = new L.LayerGroup(); //HeatmapLayer
+var endMarkerHeat = new L.LayerGroup(); //HeatmapLayer
+var startHeatmap;
+var startMarkerCluster = new L.LayerGroup();
+var endMarkerCluster = new L.LayerGroup();
+var endHeatmap = true;
+var overLaysStart;
+var hoursLayer = new L.LayerGroup();
+var daysLayer = new L.LayerGroup();
+var sliderStartsHours = [];
+var sliderStartsDays = [];
+var sliderHoursVal_s = 0;
+var sliderHoursVal_e = 24;
+var sliderDaysVal_s = 0;
+var sliderDaysVal_e = 0;
+
+var data = [];
+
+
+var polylineOptions = {
+  color: 'blue',
+  weight: 6,
+  opacity: 0.9
+};
+// var pickerVal_start;
+// var pickerVal_end;
+var setControl;
+
+
+$("#myFilterSelect").val("Alle");
+$.getJSON('/trackdata', function(result) {
+  data = result;
+  var points = [];
+
+  getLayerTimeRange(1483264800000, 1508587200000);
+  //console.log(data);
+});
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+function getDate(utc) {
+  var dt = new Date(utc * 1000);
+  return dt;
+
+}
+
+function getSpeed(duration, distance) {
+  var speed = Math.round((distance / duration) * 3.6);
+  return speed;
+
+}
+
+function showHeatMap(points) {
+  if (heat) {
+    console.log(heat);
+    map.removeLayer(heat);
+    console.log(heat);
+    console.log("heat removed");
+  }
+  heatPointArray = points.map(function(p) {
+    return [p[0], p[1]];
+  });
+
+  var heat = L.heatLayer(heatPointArray);
+
+  return heat;
+}
+
+
+function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity) {
+  //marker.url = 'single';
+
+  marker.setOpacity(opacity)
+    .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n"  + "<br>" + "speed: "  + speed +  "km/h")
+    .on('mouseover', function(e) {
+      this.openPopup();
+    });
+  if (setControl != "single") {
+    marker.on('click', function(e) { //window.open(this.url);
+
+      singleTrack(setControl, bicycle_uuid);
+      console.log("eins");
+      // $(document).ready(function(){
+      //   $("#heatmap").hide();
+      //   $(".heat_item").hide();
+      //   $("#markermap").hide();
+      //   $(".marker_item").hide();
+      // });
+    });
+  }
+  marker.on('mouseout', function(e) {
+    this.closePopup();
+  })
+  return marker;
+}
+//start= {"Alle Starts": starts}
+
+overLaysStart = {
+  "Marker (Start)": startMarkerLayer,
+  "Heatmap (Start)": startMarkerHeat,
+  "MarkerCluster (Start)": startMarkerCluster,
+  "Marker (End)": endMarkerLayer,
+  "Heatmap (End)": endMarkerHeat,
+  "MarkerCluster (End)": endMarkerCluster,
+  "Bezirke (Start)": geoJsonLayer
+}
+
+var overLayStartCon = L.control.layers(baseMaps, overLaysStart);
+overLayStartCon.addTo(map);
+
+
+$(function() {
+  $('input[name="daterange"]').daterangepicker({
+    timePicker: true,
+    timePicker24Hour: true,
+    //timePickerIncrement: 30,
+    alwaysShowCalendars: true,
+    locale: {
+      format: 'DD.MM.YYYY h:mm A',
+      monthNames: [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ],
+      daysOfWeek: [
+        "So",
+        "Mo",
+        "Di",
+        "Mi",
+        "Do",
+        "Fr",
+        "Sa"
+      ],
+    }
+  }, function(start, end, label) {
+    //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
+    showDate(start.format('YYYY/MM/DD/h'), end.format('YYYY/MM/DD/h'));
+  });
+});
+
+function showDate(eins, zwei) {
+  startMarkerLayer.clearLayers();
+  console.log("müsste jetzt geleert sein");
+  endMarkerLayer.clearLayers();
+  startMarkerHeat.clearLayers();
+  endMarkerHeat.clearLayers();
+  startClusterGroup.clearLayers();
+  endClusterGroup.clearLayers();
+  var s = getUTCStart(eins);
+  var e = getUTCEnd(zwei);
+  var pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
+  var pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
+  //alert(pickerVal_start +'' + pickerVal_end);
+
+  getLayerTimeRange(pickerVal_start, pickerVal_end);
+  console.log("has no Layer");
+
+}
+
+function getUTCStart(eins) {
+  var str = eins;
+  var c = str.split('/').map(function(i) {
+    return parseInt(i, 10);
+  });
+  return c;
+}
+
+function getUTCEnd(zwei) {
+  var str = zwei;
+  var c = str.split('/').map(function(i) {
+    return parseInt(i, 10);
+  });
+  return c;
+
+}
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+function getLayerTimeRange(pickerVal_start, pickerVal_end) {
+  var s_pointsArray = [];
+  var e_pointsArray = [];
+  //map.removeLayer
+  data.forEach(function(doc, err) {
+    s_point = [];
+    e_point = [];
+    //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
+    if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
+      console.log(getDate(doc.started));
+      if (doc.route[0] == null) {
+        lat = 52.521079;
+        lng = 13.378048;
+      } else {
+        var s_lat = parseFloat(doc.route[0].latitude);
+        var s_lng = parseFloat(doc.route[0].longitude);
+        var e_lat = parseFloat(doc.route[doc.route.length - 1].latitude);
+        var e_lng = parseFloat(doc.route[doc.route.length - 1].longitude);
+        s_point.push(s_lat);
+        s_point.push(s_lng);
+        e_point.push(e_lat);
+        e_point.push(e_lng);
+        s_pointsArray.push(s_point);
+        e_pointsArray.push(e_point);
+        var bicycle_uuid = (doc.bicycle_uuid);
+        var started = getDate(doc.started);
+        var ended = getDate(doc.ended);
+        var speed = getSpeed(doc.duration_sec, doc.distance_m);
+        s_marker = L.marker(s_point, {
+          icon: blueIcon
+        });
+        e_marker = L.marker(e_point, {
+          icon: redIcon
+        });
+        //marker = getPopup(marker, lat, lng, bicycle_uuid,"start", started);
+        s_marker.addTo(startMarkerLayer);
+        e_marker.addTo(endMarkerLayer);
+
+        console.log(bicycle_uuid);
+        s_marker = getPopup(s_marker, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9);
+        e_marker = getPopup(e_marker, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9);
+
+
+        startClusterGroup.addLayer(s_marker);
+        endClusterGroup.addLayer(e_marker);
+        startMarkerCluster.addLayer(startClusterGroup);
+        endMarkerCluster.addLayer(endClusterGroup);
+      }
+
+    } else {
+      console.log("no data available");
+    }
+  });
+  startHeatmap = showHeatMap(s_pointsArray);
+  endHeatmap = showHeatMap(e_pointsArray);
+  startMarkerHeat.addLayer(startHeatmap);
+  endMarkerHeat.addLayer(endHeatmap);
+  map.addLayer(startMarkerLayer);
+  overLaysStart = {
+    "Marker (Start)": startMarkerLayer,
+    "Heatmap (Start)": startMarkerHeat,
+    "MarkerCluster (Start)": startMarkerCluster,
+    "Marker (End)": endMarkerLayer,
+    "Heatmap (End)": endMarkerHeat,
+    "MarkerCluster (End)": endMarkerCluster,
+    "Bezirke (Start)": geoJsonLayer
+  }
+
+}

@@ -213,7 +213,7 @@ a.leaflet-control-slider-toggle {
     display: block;
 }
 .leaflet-control-slider.leaflet-control-slider-horizontal .leaflet-control-slider-plus, .leaflet-control-slider.leaflet-control-slider-horizontal .leaflet-control-slider-minus{
-    float:right;   
+    float:right;
 }
 
 .leaflet-control-slider input[type=range]::-moz-focus-outer {
@@ -228,4 +228,3 @@ a.leaflet-control-slider-toggle {
     height:36px;
   }
 }
-

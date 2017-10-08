@@ -5,13 +5,15 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // Mongoose connection to MongoDB
-//mongoose.connect('mongodb://localhost/trips', function (error) {
-MONGOLAB_URI='mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-mongoose.connect(process.env.MONGOLAB_URI, function (error) {
+// Mongoose connection to MongoDB
+// mongoose.connect('mongodb://localhost/trips', function (error) {
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(MONGOLAB_URI);
+/*, function (error) {
     if (error) {
         console.log(error);
     }
-});
+}); */
 
 // Mongoose Schema definition
 var Schema = mongoose.Schema;
@@ -21,11 +23,14 @@ var JsonSchema = new Schema({
 });
 
 // Mongoose Model definition
+//var Json = mongoose.model('JString', JsonSchema, '_trips');
 var Json = mongoose.model('JString', JsonSchema, '_trips');
 
 /* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+router.get('/', function (req, res) {
+    res.render('index', {
+        title: 'Visualisierung von Trackingdaten'
+    });
 });
 
 
@@ -35,22 +40,21 @@ router.get('/trackdata', function (req, res) {
                   'bicycle_uuid':1,
                   'started':1,
                   'ended':1,
-                  'duration_sec':1}, function (err, docs) {
+                  'duration_sec':1,
+                  'distance_m':1}, function (err, docs) {
       console.log(docs);
         res.json(docs);
-    });
+    }).sort( {'started': 1 } );
 });
+
 
 /* GET Map page. */
 
-router.get('/map', function(req,res) {
-        res.render('map', {
-            lat : 52.521079,
-            lng : 13.378048
-        });
+router.get('/map', function (req, res) {
+    res.render('map', {
+        lat: 52.521079,
+        lng: 13.378048
+    });
 });
-
-
-
 
 module.exports = router;

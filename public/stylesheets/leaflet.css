@@ -477,3 +477,15 @@
 	background: #fff;
 	border: 1px solid #666;
 	}
+
+.leaflet-control-container {
+display: block;
+}
+.leaflet-control-zoom {
+left: 5px;
+top: 80px;
+}
+.leaflet-control-layers {
+left: 5px;
+top: 80px;
+}
