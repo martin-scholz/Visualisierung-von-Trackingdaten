@@ -10,132 +10,76 @@ block content
           span.icon-bar
         a.navbar-brand(href='') Visualisierung von Trackingdaten
       .navbar-collapse.collapse
-        ul.nav.navbar-nav.navbar-right
-          li.active
-            a(href='') Karte
-          li
-            a(href='') Weitere Informationen
+        //- ul.nav.navbar-nav.navbar-right
+        //-   li.active
+        //-     a(href='') Karte
+        //-   li
+        //-     a(href='') Weitere Informationen
   .container-fluid
     .row
       .col-md-4
-        p  
+        
         .well
-          legend Bitte wählen Sie einen Zeitraum aus:
-          input#inputDefault.form-control(type='text', name='daterange', value='01.04.2017 13:00 - 15.05.2017 16:00')
-          
-          br
-          br
-          brextends layout.jade
-          block content
-
-            nav.navbar.navbar-default(role='navigation')
-              .container-fluid
-                .navbar-header
-                  button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-                    span.icon-bar
-                    span.icon-bar
-                    span.icon-bar
-                  a.navbar-brand(href='') Visualisierung von Trackingdaten
-                .navbar-collapse.collapse
-                  ul.nav.navbar-nav.navbar-right
-                    li.active
-                      a(href='') Karte
-                    li
-                      a(href='') Weitere Informationen
-            .container-fluid
-              .row
-                .col-md-4
-                  p  
-                  .well
-                    legend Bitte wählen Sie einen Zeitraum aus:
-                    input#inputDefault.form-control(type='text', name='daterange', value='01/01/2017 0:00 PM - 30/10/2017 0:00 PM')    
-                    br
-                    form#form1
-                      br
-                      legend Wochentag: 
-                      span#spanOutputDays
-                    br
-                    #sliderDays
-                    br
-                    form#form1
-                      br
-                      legend Stunde: 
-                      span#spanOutputHours
-                    br
-                    #sliderHours
-                    br
-                    legend Suche:
-                    p
-                      input#search_address.form-control(placeholder='Geben Sie eine Rahmennummer ein.', type='text')
-                    a#search.btn.btn-primary(href='#')
-                      i.glyphicon.glyphicon-search
-                      |               Suche
-                    a#reset.btn.btn-default(href='#')
-                      i.glyphicon.glyphicon-repeat
-                      |               Zurücksetzen
-                  // #result_box.alert.alert-info
-                  // strong#result_count
-                  .well
-                    legend Map Legend
-                    #leg
-                    br
-                    br
-                    br
-                    br
-                    br
-                    br
-                    br
-                    br
-                    br
-                .col-md-8
-                  noscript
-                    .alert.alert-info
-                      h4 Your JavaScript is disabled
-                      p Please enable JavaScript to view the map.
-                  #map
-                  script(type='text/javascript', src='/javascripts/topic.js')
-                  p.pull-right © 2017 Martin Scholz
-            script(type='text/javascript').
-              $(window).resize(function () {
-              var h = $(window).height(),
-              offsetTop = 105; // Calculate the top offset
-              $('#map').css('height', (h - offsetTop));
-              }).resize();
-              setTimeout(function () {
-              map.invalidateSize();
-              }, 0);
-
-          legend Wochentag:
-          br
-          //#sliderHours
-          input#sliderDays(type='text')
-          br
-          br
-          legend Stunde:
-          br
-          //#sliderHours
-          input#sliderHours(type='text')
-          br
-          legend Suche:
+          span Bitte wählen Sie einen Zeitraum aus:
           p
-            input#search_address.form-control(placeholder='Geben Sie eine Rahmennummer ein.', type='text')
-          a#search.btn.btn-primary(href='#')
-            i.glyphicon.glyphicon-search
-            |               Suche
-          a#reset.btn.btn-default(href='#')
-            i.glyphicon.glyphicon-repeat
-            |               Zurücksetzen
-        // #result_box.alert.alert-info
-        // strong#result_count
-        .well
-          legend Map Legend
-          #leg
+          input#inputDefault.form-control(type='text', name='daterange', value='01.04.2017 13:00 - 15.05.2017 16:00')
+
+          br
+          br
+          form#form1
+            
+            legend
+            | Wochentag: 
+            span#spanOutputDays
+            
+          p
+          #sliderDays
+          
+          form#form1
+            
+            
+            | Stunde: 
+            span#spanOutputHours
+          p 
+          #sliderHours
+          br
+          br
+          legend
+          span Geben Sie bitte eine FahrradId ein:
+          p
+          form.form-horizontal(role='form', method='', action='')
+                  .form-group
+                    .col-sm-10
+                      input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='')
+                  |   
+                  #btnBikeId.form-group
+                    .col-sm-10.col-sm-offset-2
+                      input#bikeId.btn.btn-primary(name='submit', type='', value='Suche')
           br
           br
           br
-          br
-          br
-          br
+          legend
+          
+          span Geben Sie bitte einen Schwellenwert ein:
+          p
+          form.form-horizontal(role='form', method='post', action='/update')
+              .form-group
+                  
+                  .col-sm-10
+                    input#name.form-control(type='Number', name='threshold', placeholder='First & Last Name', value='')
+              .form-group#btnBikeId
+                  .col-sm-10.col-sm-offset-2
+                      input#submit.btn.btn-primary(name='submit', type='submit', value='Senden')
+          
+                  //-   input#search_address.form-control(placeholder='Geben Sie eine Rahmennummer ein.', type='text')
+                  //- a#search.btn.btn-primary(href='#')
+                  //-   i.glyphicon.glyphicon-search
+                  //-   |               Suche
+                  //- a#reset.btn.btn-default(href='#')
+                  //-   i.glyphicon.glyphicon-repeat
+                  //-   |               Zurücksetzen
+                // #result_box.alert.alert-info
+                // strong#result_count
       .col-md-8
         noscript
           .alert.alert-info
@@ -153,3 +97,8 @@ block content
     setTimeout(function () {
     map.invalidateSize();
     }, 0);
+
+legend Wochentag:
+br
+//#sliderHours
+          

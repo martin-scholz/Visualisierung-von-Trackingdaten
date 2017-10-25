@@ -124,10 +124,10 @@ var sliderStartsHours = [];
 var sliderStartsDays = [];
 var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
-var sliderDaysVal_s = 0;
-var sliderDaysVal_e = 0;
-var dataForSliders =[];
-
+var sliderDaysVal_s = 1;
+var sliderDaysVal_e = 7;
+var dataForSliders = [];
+var threshold;
 var data = [];
 
 
@@ -136,21 +136,45 @@ var polylineOptions = {
   weight: 6,
   opacity: 0.9
 };
- var pickerVal_start;
- var pickerVal_end;
-var setControl;
+var pickerVal_start;
+var pickerVal_end;
+var singletrack = false;
+
+$.getJSON('/getThreshold', function(result) {
+  console.log(result);
+  thresholdId = result._id;
+  console.log(parseFloat(result.threshold));
+  threshold = parseFloat(result.threshold);
+
+  //$("#myFilterSelect").val("Alle");
+  $.getJSON('/trackdata', function(result) {
+    //console.log(result);
+    data = result;
+    var points = [];
+    var sevenDays = 0;
+    data.forEach(function(doc, err) {
+      if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 16717994) {
+        sevenDays++;
+        console.log(sevenDays);
+      }
+    });
+    //threshold = 80;
+    if (threshold < sevenDays) {
+      console.log(threshold);
+      getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
+      alert("in diesem Zeitraum wurde ein Schwellenwert überschritten");
+      threshold = 0;
+    } else {
+      getLayerTimeRange(1483264800000, Date.parse(Date()));
+    }
+    //getLayerTimeRange((Date.parse(Date()-604800000)), Date.parse(Date()));
 
 
-//$("#myFilterSelect").val("Alle");
-$.getJSON('/trackdata', function(result) {
-  data = result;
-  var points = [];
+    //Date.parse(Date());
+    //console.log(data);
 
-  getLayerTimeRange(1483264800000, 1508587200000);
-  //console.log(data);
+  });
 });
-
-
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function getDate(utc) {
   var dt = new Date(utc * 1000);
@@ -181,25 +205,17 @@ function showHeatMap(points) {
 }
 
 
-function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity) {
+function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
   //marker.url = 'single';
 
   marker.setOpacity(opacity)
-    .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n"  + "<br>" + "speed: "  + speed +  "km/h")
+    .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
     .on('mouseover', function(e) {
       this.openPopup();
     });
-  if (setControl != "single") {
+  if (singletrack == false) {
     marker.on('click', function(e) { //window.open(this.url);
-
-      singleTrack(setControl, bicycle_uuid);
-      console.log("eins");
-      // $(document).ready(function(){
-      //   $("#heatmap").hide();
-      //   $(".heat_item").hide();
-      //   $("#markermap").hide();
-      //   $(".marker_item").hide();
-      // });
+      singleTrack(bicycle_uuid);
     });
   }
   marker.on('mouseout', function(e) {
@@ -260,13 +276,17 @@ $(function() {
     showDate(start.format('YYYY/MM/DD/h'), end.format('YYYY/MM/DD/h'));
     $(document).ready(function() {
       var outputSpan = $("#spanOutputDays");
-      $("#sliderDays").slider({values:[1,7]})
+      $("#sliderDays").slider({
+        values: [1, 7]
+      })
     });
-  $(document).ready(function() {
-    var outputSpan = $("#spanOutputHours");
-    $("#sliderHours").slider({values:[0,23]})
+    $(document).ready(function() {
+      var outputSpan = $("#spanOutputHours");
+      $("#sliderHours").slider({
+        values: [0, 24]
+      })
+    });
   });
-});
 });
 
 function showDate(eins, zwei) {
@@ -305,21 +325,29 @@ function getUTCEnd(zwei) {
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+$("#bikeId.btn.btn-primary").click(function(){
+    singleTrack($("#bikeId.form-control").val());
+});
+
 
 function getLayerTimeRange(pickerVal_start, pickerVal_end) {
+  dataForSliders = [];
   var s_pointsArray = [];
   var e_pointsArray = [];
+  var s_marker;
+  var e_marker;
   //map.removeLayer
   data.forEach(function(doc, err) {
     s_point = [];
     e_point = [];
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
-      console.log(getDate(doc.started));
+      console.log("Startzeiten: " + (getDate(doc.started)));
       dataForSliders.push(doc);
+
       if (doc.route[0] == null) {
-        lat = 52.521079;
-        lng = 13.378048;
+        lat = null;
+        lng = null;
       } else {
         var s_lat = parseFloat(doc.route[0].latitude);
         var s_lng = parseFloat(doc.route[0].longitude);
@@ -341,17 +369,26 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
         e_marker = L.marker(e_point, {
           icon: redIcon
         });
+        s_marker_cluster = L.marker(s_point, {
+          icon: blueIcon
+        });
+        e_marker_cluster = L.marker(e_point, {
+          icon: redIcon
+        });
+
         //marker = getPopup(marker, lat, lng, bicycle_uuid,"start", started);
         s_marker.addTo(startMarkerLayer);
         e_marker.addTo(endMarkerLayer);
 
-        console.log(bicycle_uuid);
-        s_marker = getPopup(s_marker, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9);
-        e_marker = getPopup(e_marker, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9);
+        //  console.log(bicycle_uuid);
+        s_marker = getPopup(s_marker, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9, false);
+        e_marker = getPopup(e_marker, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9, false);
+        s_marker_cluster = getPopup(s_marker_cluster, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9, false);
+        e_marker_cluster = getPopup(e_marker_cluster, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9, false);
 
 
-        startClusterGroup.addLayer(s_marker);
-        endClusterGroup.addLayer(e_marker);
+        startClusterGroup.addLayer(s_marker_cluster);
+        endClusterGroup.addLayer(e_marker_cluster);
         startMarkerCluster.addLayer(startClusterGroup);
         endMarkerCluster.addLayer(endClusterGroup);
       }
@@ -360,6 +397,7 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
       console.log("no data available");
     }
   });
+
   startHeatmap = showHeatMap(s_pointsArray);
   endHeatmap = showHeatMap(e_pointsArray);
   startMarkerHeat.addLayer(startHeatmap);
@@ -374,5 +412,6 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
     "MarkerCluster (End)": endMarkerCluster,
     "Bezirke (Start)": geoJsonLayer
   }
+
 
 }
