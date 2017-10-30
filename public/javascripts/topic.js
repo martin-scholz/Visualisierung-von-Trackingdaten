@@ -3,8 +3,6 @@ var googleLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
-
-
 var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
@@ -100,15 +98,10 @@ var yellowIcon = new L.Icon({
 });
 
 
-var starts = new L.LayerGroup();
+
 var startMarkerLayer = new L.LayerGroup();
 var endMarkerLayer = new L.LayerGroup();
 var singleTrackMarker = new L.LayerGroup();
-var startMarkerLastSevenDays = new L.LayerGroup();
-
-var markerAverageHour = new L.LayerGroup();
-var markerAverageDays = new L.LayerGroup();
-var mainLayerGroup = new L.LayerGroup();
 var startClusterGroup = new L.MarkerClusterGroup();
 var endClusterGroup = new L.MarkerClusterGroup();
 var startMarkerHeat = new L.LayerGroup(); //HeatmapLayer
@@ -118,10 +111,7 @@ var startMarkerCluster = new L.LayerGroup();
 var endMarkerCluster = new L.LayerGroup();
 var endHeatmap = true;
 var overLaysStart;
-var hoursLayer = new L.LayerGroup();
-var daysLayer = new L.LayerGroup();
-var sliderStartsHours = [];
-var sliderStartsDays = [];
+
 var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
 var sliderDaysVal_s = 1;
@@ -147,7 +137,7 @@ $.getJSON('/getThreshold', function(result) {
   threshold = parseFloat(result.threshold);
 
   //$("#myFilterSelect").val("Alle");
-  $.getJSON('/trackdata', function(result) {
+  $.getJSON('/getTrackdata', function(result) {
     //console.log(result);
     data = result;
     var points = [];
@@ -168,14 +158,10 @@ $.getJSON('/getThreshold', function(result) {
       getLayerTimeRange(1483264800000, Date.parse(Date()));
     }
     //getLayerTimeRange((Date.parse(Date()-604800000)), Date.parse(Date()));
-
-
-    //Date.parse(Date());
-    //console.log(data);
-
   });
 });
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 function getDate(utc) {
   var dt = new Date(utc * 1000);
   return dt;
@@ -204,10 +190,13 @@ function showHeatMap(points) {
   return heat;
 }
 
-
+console.log(getPopup.bicycle_uuid);
 function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
-  //marker.url = 'single';
+  this.bicycle_uuid = bicycle_uuid;
 
+if(arguments.length != 9){
+  throw new Error ("9 arguments expected");
+}else{
   marker.setOpacity(opacity)
     .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
     .on('mouseover', function(e) {
@@ -222,6 +211,7 @@ function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacit
     this.closePopup();
   })
   return marker;
+}
 }
 //start= {"Alle Starts": starts}
 
@@ -270,6 +260,8 @@ $(function() {
         "Fr",
         "Sa"
       ],
+      applyLabel: 'Anwenden',
+      cancelLabel: 'Abbrechen',
     }
   }, function(start, end, label) {
     //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
@@ -296,8 +288,12 @@ function showDate(eins, zwei) {
   endMarkerHeat.clearLayers();
   startClusterGroup.clearLayers();
   endClusterGroup.clearLayers();
-  var s = getUTCStart(eins);
-  var e = getUTCEnd(zwei);
+  console.log(eins);
+  console.log(zwei);
+  var s = getUTC(eins);
+  var e = getUTC(zwei);
+  console.log(s);
+  console.log(e);
   pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
   pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
   //alert(pickerVal_start +'' + pickerVal_end);
@@ -307,21 +303,12 @@ function showDate(eins, zwei) {
 
 }
 
-function getUTCStart(eins) {
-  var str = eins;
+function getUTC(format) {
+  var str = format;
   var c = str.split('/').map(function(i) {
     return parseInt(i, 10);
   });
   return c;
-}
-
-function getUTCEnd(zwei) {
-  var str = zwei;
-  var c = str.split('/').map(function(i) {
-    return parseInt(i, 10);
-  });
-  return c;
-
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -342,7 +329,7 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
     e_point = [];
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
-      console.log("Startzeiten: " + (getDate(doc.started)));
+    //  console.log("Startzeiten: " + (getDate(doc.started)) + "stamp :" + doc.started);
       dataForSliders.push(doc);
 
       if (doc.route[0] == null) {

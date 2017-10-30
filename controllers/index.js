@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 
 
 /* GET layers json data. */
-app.get('/trackdata', function(req, res) {
+app.get('/getTrackdata', function(req, res) {
   Json.find({}, {
     'route': 1,
     'bicycle_uuid': 1,
@@ -40,13 +40,4 @@ app.get('/trackdata', function(req, res) {
   });
 });
 
-
-/* GET Map page. */
-
-app.get('/map', function(req, res) {
-  res.render('map', {
-    lat: 52.521079,
-    lng: 13.378048
-  });
-});
 }

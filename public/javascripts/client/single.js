@@ -9,19 +9,14 @@ if(singleTrackMarker){
 }
 
 map.removeLayer(startMarkerLayer);
-map.removeLayer(markerAverageHour);
 map.removeLayer(startMarkerHeat);
 map.removeLayer(endMarkerLayer);
 map.removeLayer(endMarkerHeat);
 map.removeLayer(startMarkerCluster);
 map.removeLayer(endMarkerCluster);
 map.removeLayer(geoJsonLayer);
-//if(con == "all"){
 map.removeControl(overLayStartCon);
-//}
-// if(con == "timeRange"){
-// map.removeControl(overLayTimeRangeCon);
-// }
+
 
 var boundaryPoints =[];
 var oneBike =[];
@@ -32,45 +27,51 @@ data.forEach(function(doc,err){
   }
 });
 
-// for (var i = 0; i < oneBike.length-1; i++) {
-//   if (oneBike[i].route[0]!=null) {
-//     var startPoint = [];
-//     var lat = parseFloat(oneBike[i].route[0].latitude);
-//     var lng = parseFloat(oneBike[i].route[0].longitude);
-//     var started = getDate(oneBike[i].started);
-//     console.log (lat +lng);
-//     startPoint.push(lat);
-//     startPoint.push(lng);
-//     startMarker = L.marker(startPoint,{icon: blueIcon});
-//     startmarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started,"single", 0.9);
-//     startMarker.addTo(singleTrackMarker);
-//     break;
-//   }
-// }
-//
-// for (var i = oneBike.length-1; i > 0; i--) {
-//   //if (oneBike[i-1].route[oneBike[i-1].route.length-1]!=null) {
-//     if (oneBike[i-1].route!=null) {
-//     var endPoint = [];
-//     var lat = parseFloat(oneBike[i].route[oneBike[i].route.length-1].latitude);
-//     var lng = parseFloat(oneBike[i].route[oneBike[i].route.length-1].longitude);
-//     var ended = getDate(oneBike[i].ended);
-//     console.log (lat +lng);
-//     endPoint.push(lat);
-//     endPoint.push(lng);
-//     endMarker = L.marker(endPoint,{icon: redIcon});
-//     endmarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended,"single", 0.9);
-//     endMarker.addTo(singleTrackMarker);
-//     break;
-//   }
-// }
+for (var i = 0; i < oneBike.length-1; i++) {
+  if (oneBike[i].route[0]!=null) {
+    var startPoint = [];
+    var lat = parseFloat(oneBike[i].route[0].latitude);
+    var lng = parseFloat(oneBike[i].route[0].longitude);
+    var started = getDate(oneBike[i].started);
+    var bicycle_uuid = (oneBike[i].bicycle_uuid);
+    var ended = getDate(oneBike[i].ended);
+    var speed = getSpeed(oneBike[i].duration_sec, oneBike[i].distance_m);
+    console.log ("lat" + lat +"lng" +lng);
+    startPoint.push(lat);
+    startPoint.push(lng);
+    startMarker = L.marker(startPoint,{icon: blueIcon});
+    startmarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed,0.9, true);
+    startMarker.addTo(singleTrackMarker);
+    break;
+  }
+}
+
+for (var i = oneBike.length-1; i > 0; i--) {
+  //if (oneBike[i-1].route[oneBike[i-1].route.length-1]!=null) {
+    if (oneBike[i].route!=null) {
+    var endPoint = [];
+    var lat = parseFloat(oneBike[i].route[oneBike[i].route.length-1].latitude);
+    var lng = parseFloat(oneBike[i].route[oneBike[i].route.length-1].longitude);
+    var ended = getDate(oneBike[i].ended);
+    console.log (lat +lng);
+    endPoint.push(lat);
+    endPoint.push(lng);
+    endMarker = L.marker(endPoint,{icon: redIcon});
+    endmarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended,speed, 0.9,true);
+    endMarker.addTo(singleTrackMarker);
+    break;
+  }
+}
+
+
+      map.addLayer(singleTrackMarker);
 
 
 oneBike.forEach(function(doc,err){
   var startPoint = [];
   if(doc.route[0]==null){
-        lat=52.521079;
-        lng=13.378048;
+        lat=null;
+        lng=null;
         console.log(doc.route[0]);
   }else{
   var lat = parseFloat(doc.route[0].latitude);
@@ -83,7 +84,7 @@ oneBike.forEach(function(doc,err){
   startPoint.push(lat);
   startPoint.push(lng);
   startMarker = L.marker(startPoint,{icon: blueIcon});
-  startMarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.9, true);
+  startMarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.0, true);
   startMarker.addTo(singleTrackMarker);
   var endPoint = [];
   var lat = parseFloat(doc.route[doc.route.length-1].latitude);
@@ -91,7 +92,7 @@ oneBike.forEach(function(doc,err){
   endPoint.push(lat);
   endPoint.push(lng);
   endMarker = L.marker(endPoint,{icon: redIcon});
-  endMarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended ,speed, 0.9, true);
+  endMarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended ,speed, 0.0, true);
   endMarker.addTo(singleTrackMarker);
   }
   //console.log("bikeID :" + bicycle_uuid);

@@ -61,12 +61,10 @@
         startClusterGroup.clearLayers();
         endClusterGroup.clearLayers();
         var pointsDay = [];
-        sliderStartsDays = [];
         sliderDaysVal_s = ui.values[0] - 1;
         sliderDaysVal_e = ui.values[1] - 1;
         console.log("hour_s: " + sliderHoursVal_s);
         console.log("hour_e: " + sliderHoursVal_e);
-        console.log("??????????????? " );
 
         //console.log(startMarkerTwentyFourHours);
         //if(data.started <= new Datee().getTime()/1000 && data.started >= (new Date().getTime()/1000)-604800){
@@ -74,7 +72,6 @@
         dataForSliders.forEach(function(doc, err) {
           point = [];
           if ((new Date(doc.started * 1000).getDay() >= ui.values[0] - 1 && new Date(doc.started * 1000).getDay() <= ui.values[1] - 1) &&
-            //sliderStartsDays.push(doc.started);
             (new Date(doc.started * 1000).getHours() >= sliderHoursVal_s && new Date(doc.started * 1000).getHours() <= sliderHoursVal_e)) {
             console.log("StartzeitenDays: " + (getDate(doc.started)));
             if (doc.route[0] == null) {

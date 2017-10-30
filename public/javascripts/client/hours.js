@@ -8,10 +8,6 @@
       values: [0, 24],
       slide: function(event, ui) {
         outputSpan.html(ui.values[0] + "-" + ui.values[1]);
-        //markerAverageDays.clearLayers();
-        //markerAverageHour.clearLayers();
-        daysLayer.clearLayers();
-        hoursLayer.clearLayers();
         startMarkerLayer.clearLayers();
         endMarkerLayer.clearLayers();
         startMarkerHeat.clearLayers();
@@ -19,7 +15,6 @@
         startClusterGroup.clearLayers();
         endClusterGroup.clearLayers();
         var pointsHour = [];
-        sliderStartsHours = [];
         sliderHoursVal_s = ui.values[0];
         sliderHoursVal_e = ui.values[1];
 
@@ -29,7 +24,6 @@
         dataForSliders.forEach(function(doc, err) {
           point = [];
           if ((new Date(doc.started * 1000).getHours() >= ui.values[0] && new Date(doc.started * 1000).getHours() <= ui.values[1]) &&
-            //sliderStartsHours.push(doc.started);
             (new Date(doc.started * 1000).getDay() >= sliderDaysVal_s && new Date(doc.started * 1000).getDay() <= sliderDaysVal_e)) {
             console.log("StartzeitenHours: " + (getDate(doc.started)));
             if (doc.route[0] == null) {

@@ -8,13 +8,12 @@
 .navbar-header {
     float: left;
     text-align: center;
-    width: 100%;
+    /*width: 100%;*/
 }
 .navbar-brand {
   padding-bottom: 0px;
   vertical-align:middle;
    font-size: 25px;
-
 }
 
 .well{

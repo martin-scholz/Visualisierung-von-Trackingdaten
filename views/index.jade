@@ -34,7 +34,7 @@ block content
             
           p
           #sliderDays
-          
+          p
           form#form1
             
             
@@ -62,7 +62,7 @@ block content
           
           span Geben Sie bitte einen Schwellenwert ein:
           p
-          form.form-horizontal(role='form', method='post', action='/update')
+          form.form-horizontal(role='form', method='post', action='/updateThreshold')
               .form-group
                   
                   .col-sm-10
@@ -97,8 +97,3 @@ block content
     setTimeout(function () {
     map.invalidateSize();
     }, 0);
-
-legend Wochentag:
-br
-//#sliderHours
-          
