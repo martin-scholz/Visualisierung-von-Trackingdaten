@@ -50,7 +50,7 @@ block content
           form.form-horizontal(role='form', method='', action='')
                   .form-group
                     .col-sm-10
-                      input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='')
+                      input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='', pattern="[0-9]{3,16}")
                   |   
                   #btnBikeId.form-group
                     .col-sm-10.col-sm-offset-2
