@@ -18,7 +18,8 @@ module.exports.controller = function(app) {
     var item = {
       threshold: req.body.threshold
     };
-    //var id = ObjectId("59eb95badaceff7db8dfdf60");
+    console.log("Requestbody :" + req.body.threshold);
+    //var id = ObjectId("59fa31a524a41d7f0c81a5a3");
     var id = ObjectId("59f767f9f36d282363088466");
 
 
@@ -30,14 +31,17 @@ module.exports.controller = function(app) {
       assert.equal(null, err);
       console.log('item updated');
       //doc.save();
-      res.redirect("/");
+      req.session.destroy();
+      res.send({err: 0, redirectUrl: "/"});
+      //res.redirect("/");
+      console.log('redirect?');
     });
   });
 
 
   app.get('/getThreshold', function(req, res) {
     Json_th.findOne({
-      //"_id": ObjectId("59eb95badaceff7db8dfdf60")
+    //  "_id": ObjectId("59fa31a524a41d7f0c81a5a3")
       "_id": ObjectId("59f767f9f36d282363088466")
     }, function(err, doc) {
       res.json(doc);

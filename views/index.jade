@@ -18,7 +18,7 @@ block content
   .container-fluid
     .row
       .col-md-4
-        
+
         .well
           span Bitte wählen Sie einen Zeitraum aus:
           p
@@ -27,17 +27,17 @@ block content
           br
           br
           form#form1
-            
+
             legend
             | Wochentag: 
             span#spanOutputDays
-            
+
           p
           #sliderDays
           p
           form#form1
-            
-            
+
+
             | Stunde: 
             span#spanOutputHours
           p 
@@ -48,38 +48,39 @@ block content
           span Geben Sie bitte eine FahrradId ein:
           p
           form.form-horizontal(role='form', method='', action='')
-                  .form-group
-                    .col-sm-10
-                      input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='', pattern="[0-9]")
-                  |   
-                  #btnBikeId.form-group
-                    .col-sm-10.col-sm-offset-2
-                      input#bikeId.btn.btn-primary(name='submit', type='', value='Suche')
+            .form-group
+              .col-sm-10
+                //input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='')
+                input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='',title="Ihre Eingabe muss folgendes Format haben:" + "\n93fed1b3-b28f-4ed8-a4c4-4fe450873f85")
+            |   
+            #btnBikeId.form-group
+              .col-sm-10.col-sm-offset-2
+                input#bikeId.btn.btn-primary(name='submit', type='', value='Suche')
           br
           br
           br
           legend
-          
+
           span Geben Sie bitte einen Schwellenwert ein:
           p
-          form.form-horizontal(role='form', method='post', action='/updateThreshold')
-              .form-group
-                  
-                  .col-sm-10
-                    input#name.form-control(type='Number', name='threshold', placeholder='', value='')
-              .form-group#btnBikeId
-                  .col-sm-10.col-sm-offset-2
-                      input#submit.btn.btn-primary(name='submit', type='submit', value='Senden')
-          
-                  //-   input#search_address.form-control(placeholder='Geben Sie eine Rahmennummer ein.', type='text')
-                  //- a#search.btn.btn-primary(href='#')
-                  //-   i.glyphicon.glyphicon-search
-                  //-   |               Suche
-                  //- a#reset.btn.btn-default(href='#')
-                  //-   i.glyphicon.glyphicon-repeat
-                  //-   |               Zurücksetzen
-                // #result_box.alert.alert-info
-                // strong#result_count
+          form.form-horizontal(role='form', method='', action='')
+            .form-group
+
+              .col-sm-10
+                input#name.form-control( name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
+            .form-group#btnBikeId
+              .col-sm-10.col-sm-offset-2
+                input#submit.btn.btn-primary(name='submit', type='', value='Senden')
+
+              //-   input#search_address.form-control(placeholder='Geben Sie eine Rahmennummer ein.', type='text')
+              //- a#search.btn.btn-primary(href='#')
+              //-   i.glyphicon.glyphicon-search
+              //-   |               Suche
+              //- a#reset.btn.btn-default(href='#')
+              //-   i.glyphicon.glyphicon-repeat
+              //-   |               Zurücksetzen
+              // #result_box.alert.alert-info
+              // strong#result_count
       .col-md-8
         noscript
           .alert.alert-info

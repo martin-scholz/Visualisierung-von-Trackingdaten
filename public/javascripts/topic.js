@@ -191,27 +191,28 @@ function showHeatMap(points) {
 }
 
 console.log(getPopup.bicycle_uuid);
+
 function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
   this.bicycle_uuid = bicycle_uuid;
 
-if(arguments.length != 9){
-  throw new Error ("9 arguments expected");
-}else{
-  marker.setOpacity(opacity)
-    .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
-    .on('mouseover', function(e) {
-      this.openPopup();
-    });
-  if (singletrack == false) {
-    marker.on('click', function(e) { //window.open(this.url);
-      singleTrack(bicycle_uuid);
-    });
+  if (arguments.length != 9) {
+    throw new Error("9 arguments expected");
+  } else {
+    marker.setOpacity(opacity)
+      .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
+      .on('mouseover', function(e) {
+        this.openPopup();
+      });
+    if (singletrack == false) {
+      marker.on('click', function(e) { //window.open(this.url);
+        singleTrack(bicycle_uuid);
+      });
+    }
+    marker.on('mouseout', function(e) {
+      this.closePopup();
+    })
+    return marker;
   }
-  marker.on('mouseout', function(e) {
-    this.closePopup();
-  })
-  return marker;
-}
 }
 //start= {"Alle Starts": starts}
 
@@ -312,8 +313,78 @@ function getUTC(format) {
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-$("#bikeId.btn.btn-primary").click(function(){
+$(document).ready(function(){
+$("#submit.btn.btn-primary").click(function() {
+//   alert("button clicked");
+//checkValidity() == false
+  // if ($('#name.form-control').val()!= "Number") {
+  //   alert("Sie müssen eine Zahl eingeben!");
+  //   $('#name.form-control').tooltip();
+  //   $('#name.form-control').tooltip("enable", {
+  //     position: {
+  //       my: "center bottom-20",
+  //       at: "center top",
+  //       using: function(position, feedback) {
+  //         $(this).css(position);
+  //         $("<div>")
+  //           .addClass("arrow")
+  //           .addClass(feedback.vertical)
+  //           .addClass(feedback.horizontal)
+  //           .appendTo(this);
+  //       }
+  //     }
+  //   });
+  // }
+  //else{
+  var data = {};
+        data.threshold = $('#name.form-control').val();
+        //alert(data.threshold);
+        $.post('/updateThreshold',{
+          threshold: data.threshold
+        }).then(function(data) {
+        window.location = data.redirectUrl;
+    });
+
+
+// $.ajax({
+//   type: 'POST',
+//   data: JSON.stringify(data),
+//       contentType: 'application/json',
+//               url: '/updateThreshold',
+//               success: function(data) {
+//                   console.log('success');
+//                   console.log(JSON.stringify(data));
+//               }
+//           });
+
+});
+});
+$("#bikeId.btn.btn-primary").click(function() {
+  var patt = /[0-9a-z]{8}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{12}/;
+  if (patt.test($('#bikeId.form-control').val())) {
+    $('#bikeId.form-control').tooltip();
     singleTrack($("#bikeId.form-control").val());
+    $('#bikeId.form-control').tooltip("disable");
+  } else {
+    alert("Sie haben eine falsche Eingabe gemacht!");
+    $(function() {
+      $('#bikeId.form-control').tooltip();
+      $('#bikeId.form-control').tooltip("enable", {
+        position: {
+          my: "center bottom-20",
+          at: "center top",
+          using: function(position, feedback) {
+            $(this).css(position);
+            $("<div>")
+              .addClass("arrow")
+              .addClass(feedback.vertical)
+              .addClass(feedback.horizontal)
+              .appendTo(this);
+          }
+        }
+      });
+    });
+  }
 });
 
 
@@ -329,7 +400,7 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
     e_point = [];
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
-    //  console.log("Startzeiten: " + (getDate(doc.started)) + "stamp :" + doc.started);
+      //  console.log("Startzeiten: " + (getDate(doc.started)) + "stamp :" + doc.started);
       dataForSliders.push(doc);
 
       if (doc.route[0] == null) {
@@ -402,3 +473,26 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
 
 
 }
+//Input Validation FahrradId
+// var errorname = true;
+//
+// var formid = document.getElementById('bikeId');
+// formid.onfocus = function () {
+//     this.setAttribute('style','background: white');
+// }
+// formid.onblur = function () {
+//   console.log(this.value);
+//   //alert("input field touched");
+//     if (this.value.match("93fed1b3-b28f-4ed8-a4c4-4fe450873f85")) {
+//       console.log("condition true");
+//         this.setAttribute('style','background: white');
+//         this.innerHTML = '';
+//         //document.querySelector('.msg.formid').setAttribute('style','display:none');
+//         errorname = false;
+//     } else {
+//         this.setAttribute('style','background:seashell');
+//         this.innerHTML = 'Bitte geben Sie ihren Namen ein!';
+//         //document.querySelector('.msg.formid').setAttribute('style','display:block');
+//         errorname = true;
+//     }
+// }
