@@ -152,7 +152,7 @@ $.getJSON('/getThreshold', function(result) {
     if (threshold < sevenDays) {
       console.log(threshold);
       getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
-      alert("in diesem Zeitraum wurde ein Schwellenwert überschritten");
+      alert("In der letzten Woche wurden  " + " " +sevenDays +" "+  " Fahrräder gestohlen gemeldet!");
       threshold = 0;
     } else {
       getLayerTimeRange(1483264800000, Date.parse(Date()));
@@ -315,35 +315,37 @@ function getUTC(format) {
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 $(document).ready(function(){
 $("#submit.btn.btn-primary").click(function() {
-//   alert("button clicked");
-//checkValidity() == false
-  // if ($('#name.form-control').val()!= "Number") {
-  //   alert("Sie müssen eine Zahl eingeben!");
-  //   $('#name.form-control').tooltip();
-  //   $('#name.form-control').tooltip("enable", {
-  //     position: {
-  //       my: "center bottom-20",
-  //       at: "center top",
-  //       using: function(position, feedback) {
-  //         $(this).css(position);
-  //         $("<div>")
-  //           .addClass("arrow")
-  //           .addClass(feedback.vertical)
-  //           .addClass(feedback.horizontal)
-  //           .appendTo(this);
-  //       }
-  //     }
-  //   });
-  // }
-  //else{
   var data = {};
         data.threshold = $('#name.form-control').val();
+        if($.isNumeric(data.threshold)){
         //alert(data.threshold);
         $.post('/updateThreshold',{
           threshold: data.threshold
         }).then(function(data) {
         window.location = data.redirectUrl;
     });
+  }else{
+
+  alert("Sie müssen eine Zahl eingeben!");
+
+    $('#name.form-control').tooltip();
+    $('#name.form-control').tooltip("enable", {
+      position: {
+        my: "center bottom-20",
+        at: "center top",
+        using: function(position, feedback) {
+          $(this).css(position);
+          $("<div>")
+            .addClass("arrow")
+            .addClass(feedback.vertical)
+            .addClass(feedback.horizontal)
+            .appendTo(this);
+        }
+      }
+    });
+  }
+
+
 
 
 // $.ajax({

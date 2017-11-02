@@ -1,5 +1,12 @@
 function singleTrack(bicycle_uuid) {
+  //overLayStartCon.remove(baseMaps);
+  //map.remove(overLayStartCon);
+  //overLayStartCon.remove(map);
+  map.removeControl(overLayStartCon);
+  var overLayStartCon1 = L.control.layers(baseMaps);
+  overLayStartCon1.addTo(map);
 
+  //overLayStartCon.addTo(map);
   console.log("zwei");
   if (singleTrackMarker) {
     singleTrackMarker.eachLayer(function(layer) {
@@ -127,7 +134,7 @@ function singleTrack(bicycle_uuid) {
   var button = new L.Control.Button('Remove polyline');
   button.addTo(map);
   button.on('click', function() {
-
+    map.removeControl(overLayStartCon1);
     map.removeLayer(singleTrackMarker);
     overLayStartCon.addTo(map);
     map.removeControl(button);
