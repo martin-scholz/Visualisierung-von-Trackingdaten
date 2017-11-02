@@ -7,9 +7,9 @@ var express = require('express')
 // database connection
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/_ConnTrips');
-// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-// mongoose.connect(MONGOLAB_URI);
-mongoose.connect('mongodb://localhost/trips');
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(MONGOLAB_URI);
+//mongoose.connect('mongodb://localhost/trips');
 //zzzz
 // some environment variabless
 app.set('port', process.env.PORT || 3000);
