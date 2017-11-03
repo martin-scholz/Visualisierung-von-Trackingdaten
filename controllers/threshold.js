@@ -19,8 +19,8 @@ module.exports.controller = function(app) {
       threshold: req.body.threshold
     };
     console.log("Requestbody :" + req.body.threshold);
-    //var id = ObjectId("59fa31a524a41d7f0c81a5a3");
-    var id = ObjectId("59f767f9f36d282363088466");
+    var id = ObjectId("59fa31a524a41d7f0c81a5a3");
+    //var id = ObjectId("59f767f9f36d282363088466");
 
 
     Json_th.updateOne({
@@ -41,8 +41,8 @@ module.exports.controller = function(app) {
 
   app.get('/getThreshold', function(req, res) {
     Json_th.findOne({
-     //"_id": ObjectId("59fa31a524a41d7f0c81a5a3")
-      "_id": ObjectId("59f767f9f36d282363088466")
+     "_id": ObjectId("59fa31a524a41d7f0c81a5a3")
+      //"_id": ObjectId("59f767f9f36d282363088466")
     }, function(err, doc) {
       res.json(doc);
     });
