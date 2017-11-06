@@ -77,21 +77,28 @@ var overLay = {
 
 var blueIcon = new L.Icon({
   iconUrl: './images/marker-icon-2x-blue.png',
-  iconSize: [25, 41],
+  iconSize: [20, 35],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 var redIcon = new L.Icon({
   iconUrl: './images/marker-icon-2x-red.png',
-  iconSize: [25, 41],
+  iconSize: [20, 35],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 var yellowIcon = new L.Icon({
   iconUrl: './images/marker-icon-2x-yellow.png',
-  iconSize: [25, 41],
+  iconSize: [20, 35],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+var blackIcon = new L.Icon({
+  iconUrl: './images/marker-icon-2x-black.png',
+  iconSize: [20, 35],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
@@ -110,7 +117,7 @@ var startHeatmap;
 var startMarkerCluster = new L.LayerGroup();
 var endMarkerCluster = new L.LayerGroup();
 var endHeatmap = true;
-var overLaysStart;
+//var overLaysStartCon;
 
 var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
@@ -152,7 +159,7 @@ $.getJSON('/getThreshold', function(result) {
     if (threshold < sevenDays) {
       console.log(threshold);
       getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
-      alert("In der letzten Woche wurden  " + " " +sevenDays +" "+  " Fahrräder gestohlen gemeldet!");
+      alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet!");
       threshold = 0;
     } else {
       getLayerTimeRange(1483264800000, Date.parse(Date()));
@@ -226,12 +233,27 @@ overLaysStart = {
   "Bezirke (Start)": geoJsonLayer
 }
 
+// var overLayStartConOpen = L.control.layers(baseMaps, overLaysStart,{collapsed:false});
+// overLayStartConOpen.addTo(map);
+// console.log(overLayStartConOpen.getContainer());
+//
+// overLayStartConOpen.getContainer().onclick = (function(e) { //window.open(this.url);
+//   //$(".leaflet-control-layers").removeClass("leaflet-control-layers-expanded");
+//   map.removeControl(overLayStartConOpen);
+//   overLayStartCon = L.control.layers(baseMaps, overLaysStart);
+//   overLayStartCon.addTo(map);
+//   //overLayStartCon.attr({collapsed:true});
+// });
 var overLayStartCon = L.control.layers(baseMaps, overLaysStart);
 overLayStartCon.addTo(map);
+//console.log(overLayStartCon.getContainer());
+
+
 
 
 $(function() {
   $('input[name="daterange"]').daterangepicker({
+    startDate: '01.01.2017 0:00 A',
     timePicker: true,
     timePicker24Hour: true,
     //timePickerIncrement: 30,
@@ -313,83 +335,71 @@ function getUTC(format) {
 }
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-$(document).ready(function(){
-$("#submit.btn.btn-primary").click(function() {
-  var data = {};
-        data.threshold = $('#name.form-control').val();
-        if($.isNumeric(data.threshold)){
-        //alert(data.threshold);
-        $.post('/updateThreshold',{
-          threshold: data.threshold
-        }).then(function(data) {
+$(document).ready(function() {
+  $("#thresholdBtn.btn.btn-primary").click(function() {
+    var data = {};
+    data.threshold = $('#threshold.form-control').val();
+    if ($.isNumeric(data.threshold)) {
+      //alert(data.threshold);
+      $.post('/updateThreshold', {
+        threshold: data.threshold
+      }).then(function(data) {
         window.location = data.redirectUrl;
-    });
-  }else{
+      });
+    } else {
 
-  alert("Sie müssen eine Zahl eingeben!");
+      alert("Sie müssen eine Zahl eingeben!");
 
-    $('#name.form-control').tooltip();
-    $('#name.form-control').tooltip("enable", {
-      position: {
-        my: "center bottom-20",
-        at: "center top",
-        using: function(position, feedback) {
-          $(this).css(position);
-          $("<div>")
-            .addClass("arrow")
-            .addClass(feedback.vertical)
-            .addClass(feedback.horizontal)
-            .appendTo(this);
-        }
-      }
-    });
-  }
-
-
+      $('#threshold.form-control').tooltip();
+      // $('#threshold.form-control').tooltip("enable", {
+      //   position: {
+      //     my: "center bottom-20",
+      //     at: "center top",
+      //     using: function(position, feedback) {
+      //       $(this).css(position);
+      //       $("<div>")
+      //         .addClass("arrow")
+      //         .addClass(feedback.vertical)
+      //         .addClass(feedback.horizontal)
+      //         .appendTo(this);
+      //     }
+      //   }
+      // });
+    }
 
 
-// $.ajax({
-//   type: 'POST',
-//   data: JSON.stringify(data),
-//       contentType: 'application/json',
-//               url: '/updateThreshold',
-//               success: function(data) {
-//                   console.log('success');
-//                   console.log(JSON.stringify(data));
-//               }
-//           });
-
+  });
 });
-});
-$("#bikeId.btn.btn-primary").click(function() {
+$("#bikeIdBtn.btn.btn-primary").click(function() {
   var patt = /[0-9a-z]{8}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{12}/;
   if (patt.test($('#bikeId.form-control').val())) {
-    $('#bikeId.form-control').tooltip();
+    //$('#bikeId.form-control').tooltip();
     singleTrack($("#bikeId.form-control").val());
-    $('#bikeId.form-control').tooltip("disable");
+    //$('#bikeId.form-control').tooltip("disable");
   } else {
     alert("Sie haben eine falsche Eingabe gemacht!");
     $(function() {
       $('#bikeId.form-control').tooltip();
-      $('#bikeId.form-control').tooltip("enable", {
-        position: {
-          my: "center bottom-20",
-          at: "center top",
-          using: function(position, feedback) {
-            $(this).css(position);
-            $("<div>")
-              .addClass("arrow")
-              .addClass(feedback.vertical)
-              .addClass(feedback.horizontal)
-              .appendTo(this);
-          }
-        }
-      });
+      // $('#bikeId.form-control').tooltip("enable", {
+      //   position: {
+      //     my: "center bottom-20",
+      //     at: "center top",
+      //     using: function(position, feedback) {
+      //       $(this).css(position);
+      //       $("<div>")
+      //         .addClass("arrow")
+      //         .addClass(feedback.vertical)
+      //         .addClass(feedback.horizontal)
+      //         .appendTo(this);
+      //     }
+      //   }
+      // });
     });
   }
 });
 
-
+//$('#sliderHours').tooltip();
+//$('#sliderDays').tooltip();
 function getLayerTimeRange(pickerVal_start, pickerVal_end) {
   dataForSliders = [];
   var s_pointsArray = [];
@@ -413,10 +423,8 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
         var s_lng = parseFloat(doc.route[0].longitude);
         var e_lat = parseFloat(doc.route[doc.route.length - 1].latitude);
         var e_lng = parseFloat(doc.route[doc.route.length - 1].longitude);
-        s_point.push(s_lat);
-        s_point.push(s_lng);
-        e_point.push(e_lat);
-        e_point.push(e_lng);
+        s_point.push(s_lat, s_lng);
+        e_point.push(e_lat, e_lng);
         s_pointsArray.push(s_point);
         e_pointsArray.push(e_point);
         var bicycle_uuid = (doc.bicycle_uuid);
@@ -436,11 +444,9 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
           icon: redIcon
         });
 
-        //marker = getPopup(marker, lat, lng, bicycle_uuid,"start", started);
         s_marker.addTo(startMarkerLayer);
         e_marker.addTo(endMarkerLayer);
 
-        //  console.log(bicycle_uuid);
         s_marker = getPopup(s_marker, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9, false);
         e_marker = getPopup(e_marker, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9, false);
         s_marker_cluster = getPopup(s_marker_cluster, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9, false);
@@ -462,39 +468,8 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
   endHeatmap = showHeatMap(e_pointsArray);
   startMarkerHeat.addLayer(startHeatmap);
   endMarkerHeat.addLayer(endHeatmap);
-  map.addLayer(startMarkerLayer);
-  overLaysStart = {
-    "Marker (Start)": startMarkerLayer,
-    "Heatmap (Start)": startMarkerHeat,
-    "MarkerCluster (Start)": startMarkerCluster,
-    "Marker (End)": endMarkerLayer,
-    "Heatmap (End)": endMarkerHeat,
-    "MarkerCluster (End)": endMarkerCluster,
-    "Bezirke (Start)": geoJsonLayer
-  }
 
+  map.addLayer(startMarkerLayer);
+  
 
 }
-//Input Validation FahrradId
-// var errorname = true;
-//
-// var formid = document.getElementById('bikeId');
-// formid.onfocus = function () {
-//     this.setAttribute('style','background: white');
-// }
-// formid.onblur = function () {
-//   console.log(this.value);
-//   //alert("input field touched");
-//     if (this.value.match("93fed1b3-b28f-4ed8-a4c4-4fe450873f85")) {
-//       console.log("condition true");
-//         this.setAttribute('style','background: white');
-//         this.innerHTML = '';
-//         //document.querySelector('.msg.formid').setAttribute('style','display:none');
-//         errorname = false;
-//     } else {
-//         this.setAttribute('style','background:seashell');
-//         this.innerHTML = 'Bitte geben Sie ihren Namen ein!';
-//         //document.querySelector('.msg.formid').setAttribute('style','display:block');
-//         errorname = true;
-//     }
-// }

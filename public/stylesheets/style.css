@@ -87,17 +87,17 @@ a {
 	content: '\1F6B2'; /*unicode star character*/
 	color: #000000;
 }
-.ui-tooltip, .arrow:after {
+/*.ui-tooltip, .arrow:after {
 
   background: black;
   border: 2px solid white;
-  opacity: 0.9;
+  opacity: 0.7;
 }
 .ui-tooltip {
   padding: 10px 20px;
   color: white;
   border-radius: 20px;
-  font: bold 14px "Helvetica Neue", Sans-Serif;
+  font: bold 11px "Helvetica Neue", Sans-Serif;
   text-transform: uppercase;
   box-shadow: 0 0 7px black;
-}
+}*/

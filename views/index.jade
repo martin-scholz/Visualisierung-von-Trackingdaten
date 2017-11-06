@@ -10,96 +10,42 @@ block content
           span.icon-bar
         a.navbar-brand(href='') Visualisierung von Trackingdaten
       .navbar-collapse.collapse
-        //- ul.nav.navbar-nav.navbar-right
-        //-   li.active
-        //-     a(href='') Karte
-        //-   li
-        //-     a(href='') Weitere Informationen
   .container-fluid
     .row
-      .col-md-4
-          
+      .col-md-4      
         .well
           legend Bitte wählen Sie einen Zeitraum aus:
-          input#inputDefault.form-control(type='text', name='daterange', value='01.04.2017 13:00 - 15.05.2017 16:00')
-          script(type='text/javascript').
-            $(function() {
-            $('input[name="daterange"]').daterangepicker({
-            timePicker: true,
-            timePicker24Hour: true,
-            //timePickerIncrement: 30,
-            alwaysShowCalendars: true,
-            locale: {
-            format: 'DD.MM.YYYY HH:mm',
-            monthNames: [
-            "Januar",
-            "Februar",
-            "März",
-            "April",
-            "Mai",
-            "Juni",
-            "Juli",
-            "August",
-            "September",
-            "Oktober",
-            "November",
-            "Dezember"
-            ],
-            daysOfWeek: [
-            "So",
-            "Mo",
-            "Di",
-            "Mi",
-            "Do",
-            "Fr",
-            "Sa"
-            ],
-            applyLabel: 'Anwenden',
-            cancelLabel: 'Abbrechen',
-            }
-            });
-            });
+          input#inputDefault.form-control(type='text', name='daterange', value='01.01.2017 00:00 - 15.05.2017 16:00')          
           br
-          br
-          
+          br          
           form#form1
-
             legend
             | Wochentag: 
             span#spanOutputDays
-
           p
-          #sliderDays
+          #sliderDays(title="Sie können einen Wochenabschnitt von 1 bis 7 Tage wählen" )
           p
           form#form1
-
-
             | Stunde: 
             span#spanOutputHours
           p 
-          #sliderHours
+          #sliderHours(title="Sie können einen Tagesabschnitt von 1 bis 24 Stunden wählen" )
           br
           br
           legend Geben Sie bitte eine FahrradId ein:
           p
-            input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='',title="Ihre Eingabe muss folgendes Format haben:" + "\n93fed1b3-b28f-4ed8-a4c4-4fe450873f85")
-          a#bikeId.btn.btn-primary.btn-sm(href='#')
+            input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='',title="Ihre Eingabe muss folgendes Format haben:" + "\n93fed1b3-b28f-4ed8-a4c4-4fe450873f85" )
+          a#bikeIdBtn.btn.btn-primary.btn-sm(href='#')
             i.glyphicon.glyphicon-search
-            |               Suche
-          
+            |               Suche        
           br
           br
           legend Geben Sie bitte einen Schwellenwert ein:
           p
-            input#name.form-control( name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
-          a#submit.btn.btn-primary.btn-sm(href='#')
+            input#threshold.form-control( name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
+          a#thresholdBtn.btn.btn-primary.btn-sm(href='#')
             i.glyphicon.glyphicon-search
             |               Senden
-          
-        // #result_box.alert.alert-info
-        // strong#result_count
-      
-          
       .col-md-8
         noscript
           .alert.alert-info
