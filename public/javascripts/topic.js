@@ -289,7 +289,7 @@ $(function() {
     }
   }, function(start, end, label) {
     //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
-    showDate(start.format('YYYY/MM/DD/h'), end.format('YYYY/MM/DD/h'));
+    showDate(start.format('YYYY/MM/DD/H'), end.format('YYYY/MM/DD/H'));
     $(document).ready(function() {
       var outputSpan = $("#spanOutputDays");
       $("#sliderDays").slider({
@@ -306,20 +306,23 @@ $(function() {
 });
 
 function showDate(eins, zwei) {
+  console.log("showDate");
   startMarkerLayer.clearLayers();
   endMarkerLayer.clearLayers();
   startMarkerHeat.clearLayers();
   endMarkerHeat.clearLayers();
   startClusterGroup.clearLayers();
   endClusterGroup.clearLayers();
-  console.log(eins);
-  console.log(zwei);
+  console.log("eins :" + eins);
+  console.log("zwei :" + zwei);
   var s = getUTC(eins);
   var e = getUTC(zwei);
-  console.log(s);
-  console.log(e);
+  console.log("s :" + s);
+  console.log("e :" + e);
   pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
   pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
+  console.log("Anfangszeit :" + getDate(pickerVal_start / 1000));
+  console.log("Endzeit :" + getDate(pickerVal_end / 1000));
   //alert(pickerVal_start +'' + pickerVal_end);
 
   getLayerTimeRange(pickerVal_start, pickerVal_end);
@@ -412,9 +415,12 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
   data.forEach(function(doc, err) {
     s_point = [];
     e_point = [];
+    console.log(getDate(doc.started));
+
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
       //  console.log("Startzeiten: " + (getDate(doc.started)) + "stamp :" + doc.started);
+
       dataForSliders.push(doc);
 
       if (doc.route[0] == null) {
