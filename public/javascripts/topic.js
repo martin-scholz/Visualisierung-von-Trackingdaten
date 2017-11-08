@@ -117,7 +117,7 @@ var startHeatmap;
 var startMarkerCluster = new L.LayerGroup();
 var endMarkerCluster = new L.LayerGroup();
 var endHeatmap = true;
-//var overLaysStartCon;
+
 
 var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
@@ -142,6 +142,9 @@ $.getJSON('/getThreshold', function(result) {
   thresholdId = result._id;
   console.log(parseFloat(result.threshold));
   threshold = parseFloat(result.threshold);
+  $(document).ready(function() {
+    $("#spanOutputThreshold").text(threshold);
+  });
 
   //$("#myFilterSelect").val("Alle");
   $.getJSON('/getTrackdata', function(result) {
@@ -159,7 +162,7 @@ $.getJSON('/getThreshold', function(result) {
     if (threshold < sevenDays) {
       console.log(threshold);
       getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
-      alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet!");
+      alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet! ");
       threshold = 0;
     } else {
       getLayerTimeRange(1483264800000, Date.parse(Date()));
@@ -247,8 +250,6 @@ overLaysStart = {
 var overLayStartCon = L.control.layers(baseMaps, overLaysStart);
 overLayStartCon.addTo(map);
 //console.log(overLayStartCon.getContainer());
-
-
 
 
 $(function() {
@@ -345,6 +346,7 @@ $(document).ready(function() {
         threshold: data.threshold
       }).then(function(data) {
         window.location = data.redirectUrl;
+        console.log(data.item.threshold);
       });
     } else {
 
@@ -470,6 +472,6 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
   endMarkerHeat.addLayer(endHeatmap);
 
   map.addLayer(startMarkerLayer);
-  
+
 
 }

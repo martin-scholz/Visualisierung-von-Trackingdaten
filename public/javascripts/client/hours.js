@@ -46,10 +46,10 @@
               var speed = getSpeed(doc.duration_sec, doc.distance_m);
               //console.log(pointsHour.length);
               s_marker = L.marker(s_point, {
-                icon: yellowIcon
+                icon: blueIcon
               });
               e_marker = L.marker(e_point, {
-                icon: blackIcon
+                icon: redIcon
               });
 
               s_marker.addTo(startMarkerLayer);

@@ -35,42 +35,7 @@
   right: -15px;
 }
 
-
-/*#name.form-control{
-  width:50px;
-}*/
-
-
-/*.form.horizontal{
-float:left;
-}*/
-
-
-/*.form-group{
-float:left;
-}*/
-
-
-/*#btnBikeId{
-  margin-top: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-
-}*/
-
-
-/*legend {
-  border-bottom: red;
-}*/
-
-
-/*#submit.btn.btn-primary, #bikeId.btn.btn-primary{
-
-  padding-left:5px;
-  padding-bottom:10px;
-  padding-top:5px;
-  font-size: 15px;
-    width:60px;
-    height:35px;
-
-}*/
+#thresholdBtn.btn.btn-primary.btn-sm {
+  margin-right:12px;
+}
+/
