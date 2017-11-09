@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
 mongoose.connect(MONGOLAB_URI);
 //mongoose.connect('mongodb://localhost/trips'); // local small
-//mongoose.connect('mongodb://localhost/_ConnTrips');local 2000
+//mongoose.connect('mongodb://localhost/_ConnTrips'); //local 2000
 //zzzz
 // some environment variabless
 app.set('port', process.env.PORT || 3000);

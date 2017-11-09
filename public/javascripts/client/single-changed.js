@@ -60,52 +60,64 @@ function singleTrack(bicycle_uuid) {
   oneBike.sort(function(a,b){
     return a.started1 - b.started1;
 });
-
-
+  console.log("Id :" + oneBike[oneBike.length - 1]._id);
+  console.log("letztes Element: " + oneBike[oneBike.length - 1].route[oneBike[oneBike.length - 1].route.length - 1].latitude);
   if (oneBike.length == 0) {
     alert("Für diese FahrradId existiert kein Eintrag!");
   } else {
+
     for (var i = 0; i < oneBike.length - 1; i++) {
       if (oneBike[i].route[0] != null) {
         var startPoint = [];
-        var lat = parseFloat(oneBike[i].route[0].latitude);
-        var lng = parseFloat(oneBike[i].route[0].longitude);
+        var endPoint = [];
+        var e_lat = parseFloat(oneBike[oneBike.length - 1].route[oneBike[oneBike.length - 1].route.length - 1].latitude);
+        var e_lng = parseFloat(oneBike[oneBike.length - 1].route[oneBike[oneBike.length - 1].route.length - 1].longitude);
+        var s_lat = parseFloat(oneBike[i].route[0].latitude);
+        var s_lng = parseFloat(oneBike[i].route[0].longitude);
+
         var started = getDate(oneBike[i].started);
         var bicycle_uuid = (oneBike[i].bicycle_uuid);
-        var ended = getDate(oneBike[i].ended);
+        var ended = getDate(oneBike[oneBike.length - 1].ended);
         var speed = getSpeed(oneBike[i].duration_sec, oneBike[i].distance_m);
         console.log("lat" + lat + "lng" + lng);
-        startPoint.push(lat);
-        startPoint.push(lng);
+        startPoint.push(s_lat);
+        startPoint.push(s_lng);
+        endPoint.push(e_lat);
+        endPoint.push(e_lng);
         startMarker = L.marker(startPoint, {
           icon: blueIcon
         });
-        startmarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.9, true);
+        startmarker = getPopup(startMarker, s_lat, s_lng, bicycle_uuid, "start", started, speed, 0.9, true);
         startMarker.addTo(singleTrackMarker);
-        break;
-      }
-    }
-
-    for (var i = oneBike.length - 1; i > 0; i--) {
-      console.log("oneBikeLänge :" + oneBike.length);
-      //if (oneBike[i-1].route[oneBike[i-1].route.length-1]!=null) {
-      if (oneBike[i].route[oneBike[i].route.length - 1] != null) {
-        var endPoint = [];
-        var lat = parseFloat(oneBike[i].route[oneBike[i].route.length - 1].latitude);
-        var lng = parseFloat(oneBike[i].route[oneBike[i].route.length - 1].longitude);
-        var ended = getDate(oneBike[i].ended);
-        console.log("ended :" + ended + "utc :" + oneBike[i].ended);
-        console.log(oneBike);
-        endPoint.push(lat);
-        endPoint.push(lng);
         endMarker = L.marker(endPoint, {
           icon: redIcon
         });
-        endmarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.9, true);
+        endmarker = getPopup(endMarker, e_lat, e_lng, bicycle_uuid, "end", ended, speed, 0.9, true);
         endMarker.addTo(singleTrackMarker);
         break;
       }
     }
+
+    // for (var i = oneBike.length - 1; i > 0; i--) {
+    //   console.log("oneBikeLänge :" + oneBike.length);
+    //   //if (oneBike[i-1].route[oneBike[i-1].route.length-1]!=null) {
+    //   if (oneBike[i].route != null) {
+    //     var endPoint = [];
+    //     var lat = parseFloat(oneBike[i].route[oneBike[i].route.length - 1].latitude);
+    //     var lng = parseFloat(oneBike[i].route[oneBike[i].route.length - 1].longitude);
+    //     var ended = getDate(oneBike[i].ended);
+    //     console.log("ended :" + ended + "utc :" + oneBike[i].ended);
+    //     console.log(oneBike);
+    //     endPoint.push(lat);
+    //     endPoint.push(lng);
+    //     endMarker = L.marker(endPoint, {
+    //       icon: redIcon
+    //     });
+    //     endmarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.9, true);
+    //     endMarker.addTo(singleTrackMarker);
+    //     break;
+    //   }
+    // }
 
 
     map.addLayer(singleTrackMarker);

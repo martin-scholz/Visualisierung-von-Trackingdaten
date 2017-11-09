@@ -51,7 +51,7 @@
     assert.notEqual(getSpeed(381,980),10,"Distance 980m, duration 381sec expects 9kmh result 10" );
   });
   QUnit.test("getUTC", function( assert ) {
-    assert.deepEqual(getUTC("2017/04/10/1"),[2017, 4, 10,1], "Format is YYYY,MM,DD,hh");
+    assert.deepEqual(getUTC("2017/04/10/1"),[2017, 4, 10,1], "Format is YYYY,MM,DD,HH");
   });
   QUnit.test("getUTCWithInvalidArgs", function( assert ) {
     assert.notDeepEqual(getUTC("2017/04/101"),[2017, 4, 10,1], "fails");

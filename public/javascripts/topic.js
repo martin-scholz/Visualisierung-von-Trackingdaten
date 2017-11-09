@@ -156,9 +156,12 @@ $.getJSON('/getThreshold', function(result) {
       if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 16717994) {
         sevenDays++;
         console.log(sevenDays);
+
       }
+      console.log(doc.started);
     });
-    //threshold = 80;
+
+
     if (threshold < sevenDays) {
       console.log(threshold);
       getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
@@ -210,6 +213,7 @@ function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacit
   } else {
     marker.setOpacity(opacity)
       .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
+      //.bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nFahrradId: " + bicycle_uuid + "<br>" + "\n" + label + "zeit: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
       .on('mouseover', function(e) {
         this.openPopup();
       });
@@ -254,13 +258,13 @@ overLayStartCon.addTo(map);
 
 $(function() {
   $('input[name="daterange"]').daterangepicker({
-    startDate: '01.01.2017 0:00 A',
+    startDate: '01.01.2017 0:00 ',
     timePicker: true,
     timePicker24Hour: true,
     //timePickerIncrement: 30,
     alwaysShowCalendars: true,
     locale: {
-      format: 'DD.MM.YYYY h:mm A',
+      format: 'DD.MM.YYYY //H:mm',
       monthNames: [
         "Januar",
         "Februar",
@@ -289,7 +293,7 @@ $(function() {
     }
   }, function(start, end, label) {
     //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
-    showDate(start.format('YYYY/MM/DD/H'), end.format('YYYY/MM/DD/H'));
+    showDate(start.format('YYYY/MM/DD/HH/mm'), end.format('YYYY/MM/DD/HH/mm'));
     $(document).ready(function() {
       var outputSpan = $("#spanOutputDays");
       $("#sliderDays").slider({
@@ -299,7 +303,7 @@ $(function() {
     $(document).ready(function() {
       var outputSpan = $("#spanOutputHours");
       $("#sliderHours").slider({
-        values: [0, 24]
+        values: [0, 23]
       })
     });
   });
@@ -319,8 +323,12 @@ function showDate(eins, zwei) {
   var e = getUTC(zwei);
   console.log("s :" + s);
   console.log("e :" + e);
-  pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3]);
-  pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3]);
+  pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3],s[4]);
+  pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3],e[4]);
+  console.log(pickerVal_s = new Date(Date.UTC(s[0], s[1] - 1, s[2], s[3], s[4])));
+  console.log(pickerVal_e = new Date(Date.UTC(e[0], e[1] - 1, e[2], e[3], e[4])));
+  console.log("Pickervaluestart :" + pickerVal_start);
+  console.log("Pickervaluestart :" + pickerVal_end);
   console.log("Anfangszeit :" + getDate(pickerVal_start / 1000));
   console.log("Endzeit :" + getDate(pickerVal_end / 1000));
   //alert(pickerVal_start +'' + pickerVal_end);
@@ -376,8 +384,9 @@ $(document).ready(function() {
   });
 });
 $("#bikeIdBtn.btn.btn-primary").click(function() {
-  var patt = /[0-9a-z]{8}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{12}/;
-  if (patt.test($('#bikeId.form-control').val())) {
+  //var regex = /[0-9a-z]{8}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{4}\-[0-9a-z]{12}/;
+  var regex = /([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i;
+  if (regex.test($('#bikeId.form-control').val())) {
     //$('#bikeId.form-control').tooltip();
     singleTrack($("#bikeId.form-control").val());
     //$('#bikeId.form-control').tooltip("disable");
@@ -415,7 +424,7 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
   data.forEach(function(doc, err) {
     s_point = [];
     e_point = [];
-    console.log(getDate(doc.started));
+    //console.log(getDate(doc.started));
 
     //console.log("Anfang: " + pickerVal_start / 1000 + "Ende: " + pickerVal_end / 1000);
     if (doc.started <= (pickerVal_end / 1000) && doc.started >= (pickerVal_start / 1000)) {
