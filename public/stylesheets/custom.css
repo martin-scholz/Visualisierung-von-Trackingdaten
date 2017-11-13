@@ -38,4 +38,7 @@
 #thresholdBtn.btn.btn-primary.btn-sm {
   margin-right:12px;
 }
-/
+#readonly.form-control
+{
+    background-color:white;
+}

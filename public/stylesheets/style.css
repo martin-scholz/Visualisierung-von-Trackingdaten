@@ -87,6 +87,7 @@ a {
 	content: '\1F6B2'; /*unicode star character*/
 	color: #000000;
 }
+
 /*.ui-tooltip, .arrow:after {
 
   background: black;
@@ -101,14 +102,3 @@ a {
   text-transform: uppercase;
   box-shadow: 0 0 7px black;
 }*/
-.legend {
-    line-height: 18px;
-    color: #555;
-}
-.legend i {
-    width: 40px;
-    height: 18px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.7;
-}

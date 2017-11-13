@@ -22,13 +22,51 @@ block content
                   i.form-control-feedback.glyphicon-calendar.glyphicon    
       
           br
-          br          
-          form#form1
-            legend
-            | Wochentag: 
-            span#spanOutputDays
-          p
-          #sliderDays(title="Sie können einen Wochenabschnitt von 1 bis 7 Tage wählen" )
+          br  
+          .btn-group(data-toggle='buttons')
+        label.btn.btn-success.active
+            input(type='checkbox', autocomplete='off', checked='')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+          | &#x9;&#x9;&#x9;
+          label.btn.btn-primary
+            input(type='checkbox', autocomplete='off')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+          | &#x9;&#x9;&#x9;
+          | &#x9;&#x9;
+          | &#x9;&#x9;&#x9;
+          label.btn.btn-info
+            input(type='checkbox', autocomplete='off')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+          | &#x9;&#x9;&#x9;
+          | &#x9;&#x9;
+          | &#x9;&#x9;&#x9;
+          label.btn.btn-default
+            input(type='checkbox', autocomplete='off')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+          | &#x9;&#x9;&#x9;
+          | &#x9;&#x9;&#x9;
+          label.btn.btn-warning
+            input(type='checkbox', autocomplete='off')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+          | &#x9;&#x9;&#x9;
+          | &#x9;&#x9;
+          | &#x9;&#x9;&#x9;
+          label.btn.btn-danger
+            input(type='checkbox', autocomplete='off')
+            | &#x9;&#x9;&#x9;&#x9;
+            span.glyphicon.glyphicon-ok
+             
+          //- form#form1
+          //-   legend
+          //-   | Wochentag: 
+          //-   span#spanOutputDays
+          //- p
+          //- #sliderDays(title="Sie können einen Wochenabschnitt von 1 bis 7 Tage wählen" )
           p
           form#form1
             | Stunde: 

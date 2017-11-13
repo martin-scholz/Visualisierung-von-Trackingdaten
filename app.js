@@ -7,9 +7,9 @@ var express = require('express')
 // database connection
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/_ConnTrips');
-MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-mongoose.connect(MONGOLAB_URI);
-//mongoose.connect('mongodb://localhost/trips'); // local small
+// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+// mongoose.connect(MONGOLAB_URI);
+mongoose.connect('mongodb://localhost/trips'); // local small
 //mongoose.connect('mongodb://localhost/_ConnTrips'); //local 2000
 //zzzz
 // some environment variabless
@@ -31,6 +31,7 @@ fs.readdirSync('./controllers').forEach(function (file) {
   if(file.substr(-3) == '.js') {
       route = require('./controllers/' + file);
       route.controller(app);
+      console.log(file);
   }
 });
 // var route = require('./controllers/index');

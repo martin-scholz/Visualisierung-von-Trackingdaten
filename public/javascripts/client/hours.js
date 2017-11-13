@@ -18,7 +18,8 @@
         var e_pointsHour = [];
         sliderHoursVal_s = ui.values[0];
         sliderHoursVal_e = ui.values[1];
-
+        console.log("hours :" + sliderHoursVal_s);
+        console.log("hours :" + sliderHoursVal_e);
         //console.log("days_s: " + sliderDaysVal_s);
         //console.log("days_e: " + sliderDaysVal_e);
 

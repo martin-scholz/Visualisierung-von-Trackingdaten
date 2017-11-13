@@ -257,14 +257,26 @@ overLayStartCon.addTo(map);
 
 
 $(function() {
+//  moment.locale('de');
   $('input[name="daterange"]').daterangepicker({
-    startDate: '01.01.2017 0:00 ',
+    startDate: '1. Jan \'17  00:00',
     timePicker: true,
     timePicker24Hour: true,
     //timePickerIncrement: 30,
+    showCustomRangeLabel:false,
     alwaysShowCalendars: true,
+    ranges: {
+                'die letzten 24 Stunden': [moment().subtract('hours', 24), moment()],
+                'die letzten 7 Tage': [moment().subtract('days', 7), moment()],
+                'die letzten 30 Tage': [moment().subtract('days', 30), moment()],
+                'die letzten 12 Monate': [moment().subtract('month', 12), moment()],
+            },
+
     locale: {
-      format: 'DD.MM.YYYY //H:mm',
+      format: 'D. MMM \'YY  HH:mm',
+    //  format: 'DD.MM.YYYY  H:mm',
+      separator: '      -     ',
+    //  language: 'de',
       monthNames: [
         "Januar",
         "Februar",
@@ -303,7 +315,7 @@ $(function() {
     $(document).ready(function() {
       var outputSpan = $("#spanOutputHours");
       $("#sliderHours").slider({
-        values: [0, 23]
+        values: [0, 24]
       })
     });
   });
@@ -363,7 +375,7 @@ $(document).ready(function() {
 
       alert("Sie müssen eine Zahl eingeben!");
 
-      $('#threshold.form-control').tooltip();
+      //$('#threshold.form-control').tooltip();
       // $('#threshold.form-control').tooltip("enable", {
       //   position: {
       //     my: "center bottom-20",
@@ -391,9 +403,9 @@ $("#bikeIdBtn.btn.btn-primary").click(function() {
     singleTrack($("#bikeId.form-control").val());
     //$('#bikeId.form-control').tooltip("disable");
   } else {
-    alert("Sie haben eine falsche Eingabe gemacht!");
+    alert("Sie haben eine falsche Eingabe gemacht! Ihre Eingabe muss folgendes Format haben:" + "\n93fed1b3-b28f-4ed8-a4c4-4fe450873f85");
     $(function() {
-      $('#bikeId.form-control').tooltip();
+    //  $('#bikeId.form-control').tooltip();
       // $('#bikeId.form-control').tooltip("enable", {
       //   position: {
       //     my: "center bottom-20",
