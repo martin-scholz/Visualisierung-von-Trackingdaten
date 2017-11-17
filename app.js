@@ -7,11 +7,11 @@ var express = require('express')
 // database connection
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/_ConnTrips');
-// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-// mongoose.connect(MONGOLAB_URI);
-mongoose.connect('mongodb://localhost/trips'); // local small
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(MONGOLAB_URI);
+//mongoose.connect('mongodb://localhost/trips'); // local small
 //mongoose.connect('mongodb://localhost/_ConnTrips'); //local 2000
-//zzzz
+
 // some environment variabless
 app.set('port', process.env.PORT || 3000);
 //app.set('views', __dirname + '/views');
@@ -25,6 +25,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'webapp')));
 
 //dynamically include routes (Controller)
 fs.readdirSync('./controllers').forEach(function (file) {

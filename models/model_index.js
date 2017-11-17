@@ -10,5 +10,5 @@ var JsonSchema = new Schema({
 console.log("schema");
 //var Json = mongoose.model('JString0', JsonSchema, '_noadata');
 //var Json = mongoose.model('JString0', JsonSchema, '_trips2000');
-var Json = mongoose.model('JString0', JsonSchema, '_trips');
-module.exports = Json;
+var Json_in = mongoose.model('Json_in', JsonSchema, '_trips');
+module.exports = Json_in;
