@@ -53,12 +53,14 @@ $(function() {
       $("#sliderDays").slider({
         values: [1, 7]
       })
+      outputSpan.html("So" + "-" + "Sa");
     });
     $(document).ready(function() {
       var outputSpan = $("#spanOutputHours");
       $("#sliderHours").slider({
         values: [0, 24]
       })
+      outputSpan.html(0 + "-" + 24);
     });
   });
 });
