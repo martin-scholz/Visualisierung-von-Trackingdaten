@@ -7,9 +7,9 @@ var express = require('express')
 // database connection
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/_ConnTrips');
-// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-// mongoose.connect(MONGOLAB_URI);
-mongoose.connect('mongodb://localhost/trips'); // local small
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(MONGOLAB_URI);
+//mongoose.connect('mongodb://localhost/trips'); // local small
 //mongoose.connect('mongodb://localhost/_ConnTrips'); //local 2000
 
 // some environment variabless
