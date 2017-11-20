@@ -118,10 +118,12 @@
           }
         });
       console.log(s_pointsDay);
-        startHeatmap = showHeatMap(s_pointsDay);
-        startMarkerHeat.addLayer(startHeatmap);
-        endHeatmap = showHeatMap(e_pointsDay);
-        endMarkerHeat.addLayer(endHeatmap);
+      var start_heat = L.heatLayer(s_pointsDay);
+      var end_heat = L.heatLayer(e_pointsDay);
+      //  startHeatmap = showHeatMap(s_pointsDay);
+        startMarkerHeat.addLayer(start_heat);
+      //  endHeatmap = showHeatMap(e_pointsDay);
+        endMarkerHeat.addLayer(end_heat);
 
       }
     });

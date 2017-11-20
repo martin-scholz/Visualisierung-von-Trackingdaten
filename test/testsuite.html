@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
   <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-  <script src="../public/javascripts/topic.js"></script>
-  <script src="../public/javascripts/client/single.js"></script>
+  <script src="../webapp/index.js"></script>
+  <script src="../webapp/single.js"></script>
   <!-- <script src="blanket.min.js"></script> -->
 
 
@@ -19,7 +19,7 @@
      assert.ok(showHeatMap, "showHeatMap exists");
       assert.ok(showDate, "showDate exists");
        assert.ok(getLayerTimeRange, "getLayerTimeRange exists");
-        assert.ok(singleTrack, "singleTrack exists");
+        assert.ok(single.singleTrack, "singleTrack exists");
           assert.ok(getUTC, "getUTC exists");
            assert.ok(getPopup, "getPopup exists");
 
@@ -31,7 +31,7 @@
      assert.ok(typeof showHeatMap === "function", "showHeatMap is a function");
       assert.ok(typeof showDate === "function", "showDate is a function");
        assert.ok(typeof getLayerTimeRange === "function", "getLayerTimeRange is a function");
-        assert.ok(typeof singleTrack === "function", "singleTrack is a function");
+        assert.ok(typeof single.singleTrack === "function", "singleTrack is a function");
           assert.ok(typeof getUTC === "function", "getUTC is a function");
           assert.ok(typeof getPopup === "function", "getPopup is a function");
 

@@ -47,7 +47,7 @@ block content
           br
           legend Geben Sie bitte einen Schwellenwert ein:
           p
-            input#threshold.form-control( type = "Number" , name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
+            input#threshold.form-control( type = "Number" , min = "1", name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
           a#thresholdBtn.btn.btn-primary.btn-sm
             i.glyphicon.glyphicon-refresh
             |               Aktualisieren

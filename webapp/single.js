@@ -45,8 +45,8 @@ var single = {
           "started1": startUnsorted
         };
         //merge with doc
-        //var obj = Object.assign(doc, o); // not internet Explorer
-        var obj = $.extend(doc, obj);
+        var obj = Object.assign(doc, o); // not internet Explorer
+        //var obj = $.extend(doc, obj);
         oneBike.push(obj);
       }
     });

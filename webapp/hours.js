@@ -68,10 +68,13 @@
           }
         });
         console.log(s_pointsHour);
-        startHeatmap = showHeatMap(s_pointsHour);
-        startMarkerHeat.addLayer(startHeatmap);
-        endHeatmap = showHeatMap(e_pointsHour);
-        endMarkerHeat.addLayer(endHeatmap);
+        var start_heat = L.heatLayer(s_pointsHour);
+        var end_heat = L.heatLayer(e_pointsHour);
+        //startHeatmap = showHeatMap(s_pointsHour);
+        startMarkerHeat.addLayer(start_heat);
+        //endHeatmap = showHeatMap(e_pointsHour);
+        endMarkerHeat.addLayer(end_heat);
+
 
       }
     });

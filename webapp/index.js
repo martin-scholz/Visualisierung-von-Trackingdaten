@@ -91,6 +91,7 @@ $.getJSON('/getThreshold', function(result) {
   console.log(parseFloat(result.threshold));
   threshold = parseFloat(result.threshold);
   $(document).ready(function() {
+    $('#threshold.form-control').val(threshold);
     $("#spanOutputThreshold").text(threshold);
   });
 
@@ -123,57 +124,10 @@ $.getJSON('/getThreshold', function(result) {
 });
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-function getDate(utc) {
-  var dt = new Date(utc * 1000);
-  return dt;
 
-}
 
-function getSpeed(duration, distance) {
-  var speed = Math.round((distance / duration) * 3.6);
-  return speed;
 
-}
 
-function showHeatMap(points) {
-  if (heat) {
-    console.log(heat);
-    map.removeLayer(heat);
-    console.log(heat);
-    console.log("heat removed");
-  }
-  heatPointArray = points.map(function(p) {
-    return [p[0], p[1]];
-  });
-
-  var heat = L.heatLayer(heatPointArray);
-
-  return heat;
-}
-
-function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
-  this.bicycle_uuid = bicycle_uuid;
-
-  if (arguments.length != 9) {
-    throw new Error("9 arguments expected");
-  } else {
-    marker.setOpacity(opacity)
-      .bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nbikeId: " + bicycle_uuid + "<br>" + "\n" + label + "ed: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
-      //.bindPopup("Lat: " + lat + "\nlng: " + lng + "<br>" + "\nFahrradId: " + bicycle_uuid + "<br>" + "\n" + label + "zeit: " + startend + "\n" + "<br>" + "speed: " + speed + "km/h")
-      .on('mouseover', function(e) {
-        this.openPopup();
-      });
-    if (singletrack == false) {
-      marker.on('click', function(e) {
-        single.singleTrack(bicycle_uuid);
-      });
-    }
-    marker.on('mouseout', function(e) {
-      this.closePopup();
-    })
-    return marker;
-  }
-}
 //start= {"Alle Starts": starts}
 
 overLays = {
@@ -208,8 +162,8 @@ function showDate(eins, zwei) {
   pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3],e[4]);
   // console.log(pickerVal_s = new Date(Date.UTC(s[0], s[1] - 1, s[2], s[3], s[4])));
   // console.log(pickerVal_e = new Date(Date.UTC(e[0], e[1] - 1, e[2], e[3], e[4])));
-  // console.log("Pickervaluestart :" + pickerVal_start);
-  // console.log("Pickervaluestart :" + pickerVal_end);
+  console.log("Pickervaluestart :" + pickerVal_start);
+  console.log("Pickervaluestart :" + pickerVal_end);
   // console.log("Anfangszeit :" + getDate(pickerVal_start / 1000));
   // console.log("Endzeit :" + getDate(pickerVal_end / 1000));
   //alert(pickerVal_start +'' + pickerVal_end);
@@ -219,13 +173,6 @@ function showDate(eins, zwei) {
 
 }
 
-function getUTC(format) {
-  var str = format;
-  var c = str.split('/').map(function(i) {
-    return parseInt(i, 10);
-  });
-  return c;
-}
 
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -291,11 +238,12 @@ function getLayerTimeRange(pickerVal_start, pickerVal_end) {
       console.log("no data available");
     }
   });
-
-  startHeatmap = showHeatMap(s_pointsArray);
-  endHeatmap = showHeatMap(e_pointsArray);
-  startMarkerHeat.addLayer(startHeatmap);
-  endMarkerHeat.addLayer(endHeatmap);
+   var start_heat = L.heatLayer(s_pointsArray);
+  var end_heat = L.heatLayer(e_pointsArray);
+//  startHeatmap = showHeatMap(s_pointsArray);
+  //endHeatmap = showHeatMap(e_pointsArray);
+  startMarkerHeat.addLayer(start_heat);
+  endMarkerHeat.addLayer(end_heat);
 
   map.addLayer(startMarkerLayer);
 
