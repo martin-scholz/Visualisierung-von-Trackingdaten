@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Testsuite Visualisierung Trackingdata</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.4.1.css">
+  <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+  <script src="../route.js"></script>
+  <script src="../rangelayers.js"></script>
+  <script src="../utils.js"></script>
+
+  <script>
+    QUnit.test("exists", function(assert) {
+
+      assert.expect(6);
+      assert.ok(rangelayers.getLayerTimeRange, "getLayerTimeRange exists");
+      assert.ok(route.singleTrack, "singleTrack exists");
+      assert.ok(getPopup, "getPopup exists");
+      assert.ok(sortDate, "sortDate exists");
+      assert.ok(clearLayers, "clearLayers exists");
+      assert.ok(removeLayers, "removeLayers exists");
+
+    });
+
+
+    QUnit.test("Is type function", function(assert) {
+      assert.expect(6);
+      assert.ok(typeof rangelayers.getLayerTimeRange === "function", "getLayerTimeRange is a function");
+      assert.ok(typeof route.singleTrack === "function", "singleTrack is a function");
+      assert.ok(typeof getPopup === "function", "getPopup is a function");
+      assert.ok(typeof sortDate === "function", "sortDate is a function");
+      assert.ok(typeof clearLayers === "function", "clearLayers is a function");
+      assert.ok(typeof removeLayers === "function", "removeLayers is a function");
+
+
+    });
+
+    QUnit.test("getDate", function(assert) {
+      assert.equal(getDate(1.496154847E9), "Tue May 30 2017 16:34:07 GMT+0200 (Mitteleuropäische Sommerzeit)", "Tue May 30 2017 16:34:07 GMT+0200 (Mitteleuropäische Sommerzeit)");
+    });
+    QUnit.test("getDateWithInvalidArgs", function(assert) {
+      assert.notEqual(getDate(1.496154847), "Tue May 30 2017 16:34:07 GMT+0200 (Mitteleuropäische Sommerzeit)", "Result: Thu Jan 01 1970 01:00:01 GMT+0100 (Mitteleuropäische Zeit)");
+    });
+    QUnit.test("getSpeed", function(assert) {
+      assert.equal(getSpeed(381, 980), 9, "Distance 980 duration 381 speed 9kmh");
+    });
+    QUnit.test("getSpeedWithInvalidArgs", function(assert) {
+      assert.notEqual(getSpeed(381, 980), 10, "Distance 980m, duration 381sec expects 9kmh result 10");
+    });
+    QUnit.test("sortDate", function(assert) {
+      assert.propEqual(sortDate([{
+        started1: 1490991207
+      }, {
+        started1: 1491058416
+      }, {
+        started1: 1490990890
+      }]), [{
+        started1: 1490990890
+      }, {
+        started1: 1490991207
+      }, {
+        started1: 1491058416
+      }], "sorted");
+    });
+    QUnit.test("getPopupThrowsExceptionWithWrongNumberOfArgs", function(assert) {
+      assert.expect(2);
+      assert.throws(function() {
+        getPopup(1);
+      }, "Exception thrown");
+      assert.throws(function() {
+        getPopup(1, 1, 1, 1, 1, 1, 1, 1, 1);
+      }, "Exception thrown");
+
+    });
+    QUnit.test("getPopupObjectTypeMarker", function(assert) {
+      var marker = L.marker();
+      assert.equal(typeof getPopup(marker, 1, 1, 1, 1, 1, 1, 1, 1) === "object", true, "is Type object");
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div id="qunit"></div>
+
+</body>
+
+</html>

@@ -1,24 +1,21 @@
-
 function getDate(utc) {
   var dt = new Date(utc * 1000);
   return dt;
 
 }
-function getUTC(format) {
-  var str = format;
-  var c = str.split('/').map(function(i) {
-    return parseInt(i, 10);
-  });
-  return c;
-}
+
 
 function getSpeed(duration, distance) {
   var speed = Math.round((distance / duration) * 3.6);
   return speed;
 
 }
+
 function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
-  this.bicycle_uuid = bicycle_uuid;
+  // var marker;
+  //
+  // this.bicycle_uuid = bicycle_uuid;
+  // this.marker = marker;
 
   if (arguments.length != 9) {
     throw new Error("9 arguments expected");
@@ -31,24 +28,57 @@ function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacit
       });
     if (singletrack == false) {
       marker.on('click', function(e) {
-        single.singleTrack(bicycle_uuid);
+        route.singleTrack(bicycle_uuid);
       });
     }
     marker.on('mouseout', function(e) {
       this.closePopup();
     })
+    //var obj = L.marker();
+    //console.log(typeof marker === "object");
     return marker;
   }
 }
-function showHeatMap(points) {
-  if (heat) {
-    map.removeLayer(heat);
-  }
-  heatPointArray = points.map(function(p) {
-    return [p[0], p[1]];
+function sortDate(oneBike) {
+  oneBike.sort(function(a, b) {
+    return a.started1 - b.started1;
   });
+  console.log("oneBike after :" + oneBike);
+  return oneBike;
+}
 
-  var heat = L.heatLayer(heatPointArray);
+function removeLayers(layers){
+  layers.eachLayer(function(doc, err) {
+    map.removeLayer(doc);
+  });
+}
 
-  return heat;
+function clearLayers(callback) {
+  //console.log("showDate");
+  startMarkerLayer.clearLayers();
+  endMarkerLayer.clearLayers();
+  startMarkerHeat.clearLayers();
+  endMarkerHeat.clearLayers();
+  startClusterGroup.clearLayers();
+  endClusterGroup.clearLayers();
+  callback();
+  // console.log("eins :" + eins);
+  // console.log("zwei :" + zwei);
+  // var s = getUTC(eins);
+  // var e = getUTC(zwei);
+  // // console.log("s :" + s);
+  // // console.log("e :" + e);
+  // pickerVal_start = Date.UTC(s[0], s[1] - 1, s[2], s[3],s[4]);
+  // pickerVal_end = Date.UTC(e[0], e[1] - 1, e[2], e[3],e[4]);
+  // // console.log(pickerVal_s = new Date(Date.UTC(s[0], s[1] - 1, s[2], s[3], s[4])));
+  // // console.log(pickerVal_e = new Date(Date.UTC(e[0], e[1] - 1, e[2], e[3], e[4])));
+  // console.log("Pickervaluestart :" + pickerVal_start);
+  // console.log("Pickervaluestart :" + pickerVal_end);
+  // // console.log("Anfangszeit :" + getDate(pickerVal_start / 1000));
+  // // console.log("Endzeit :" + getDate(pickerVal_end / 1000));
+  // //alert(pickerVal_start +'' + pickerVal_end);
+
+//  rangelayers.getLayerTimeRange(eins, zwei);
+  console.log("has no Layer");
+
 }
