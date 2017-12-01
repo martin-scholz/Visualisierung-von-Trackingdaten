@@ -1,5 +1,4 @@
 
-//(function () {
 var googleLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
   maxZoom: 20,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
@@ -65,8 +64,6 @@ var startMarkerCluster = new L.LayerGroup();
 var endMarkerCluster = new L.LayerGroup();
 var endHeatmap = true;
 var layerGroup = new L.LayerGroup();
-
-
 var sliderHoursVal_s = 0;
 var sliderHoursVal_e = 24;
 var sliderDaysVal_s = 1;
@@ -74,7 +71,8 @@ var sliderDaysVal_e = 7;
 var dataForSliders = [];
 var threshold;
 var data = [];
-//var layerGroup = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat,startMarkerCluster,endMarkerCluster]);
+var layerGroupRemove = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat,startMarkerCluster,endMarkerCluster]);
+var layerGroupClear = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat,startClusterGroup,endClusterGroup]);
 
 
 var polylineOptions = {
@@ -86,54 +84,7 @@ var pickerVal_start;
 var pickerVal_end;
 var singletrack = false;
 
-$.getJSON('/getThreshold', function(result) {
-  //console.log(result);
-  thresholdId = result._id;
-  console.log(parseFloat(result.threshold));
-  threshold = parseFloat(result.threshold);
-  $(document).ready(function() {
-    $('#threshold.form-control').val(threshold);
-    $("#spanOutputThreshold").text(threshold);
-  });
 
-  //$("#myFilterSelect").val("Alle");
-  $.getJSON('/getTrackdata', function(result) {
-    console.log(result);
-    data = result;
-    var points = [];
-    var sevenDays = 0;
-    data.forEach(function(doc, err) {
-      if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 16717994) {
-        sevenDays++;
-        //console.log(sevenDays);
-
-      }
-      //console.log(doc.started);
-    });
-
-
-    if (threshold < sevenDays) {
-      console.log(threshold);
-      rangelayers.getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
-      alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet! ");
-      threshold = 0;
-
-      // $('input[name="daterange"]').daterangepicker({
-      //   startDate: moment().subtract('days', 7)
-      // });
-    } else {
-      rangelayers.getLayerTimeRange(1483264800000, Date.parse(Date()));
-    }
-    //rangelayers.getLayerTimeRange((Date.parse(Date()-604800000)), Date.parse(Date()));
-  });
-});
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
-
-
-
-//start= {"Alle Starts": starts}
 
 overLays = {
   "Marker (Start)": startMarkerLayer,
@@ -148,10 +99,38 @@ overLays = {
 var overLayCon = L.control.layers(baseMaps, overLays);
 overLayCon.addTo(map);
 
+$.getJSON('/getThreshold', function(result) {
+  //console.log(result);
+  thresholdId = result._id;
+  console.log(parseFloat(result.threshold));
+  threshold = parseFloat(result.threshold);
+  $(document).ready(function() {
+    $('#threshold.form-control').val(threshold);
+    $("#spanOutputThreshold").text(threshold);
+  });
+
+  $.getJSON('/getTrackdata', function(result) {
+    console.log(result);
+    data = result;
+    var points = [];
+    var sevenDays = 0;
+    data.forEach(function(doc, err) {
+      if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 16717994) {
+        sevenDays++;
+        console.log(sevenDays);
+      }
+    });
 
 
+    if (threshold < sevenDays) {
+      $('input[name="daterange"]').data('daterangepicker').setStartDate(moment().subtract('days', 7));
+      console.log(threshold);
+      rangelayers.getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
+      alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet! ");
+      threshold = 0;
 
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
-//})();
+    } else {
+      rangelayers.getLayerTimeRange(1483264800000, Date.parse(Date()));
+    }
+  });
+});

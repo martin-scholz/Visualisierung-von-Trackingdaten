@@ -21,19 +21,12 @@ var route = {
         singleTrackMarker.removeLayer(layer);
       });
     }
-    var layers = L.layerGroup([startMarkerLayer,startMarkerHeat, endMarkerLayer, endMarkerHeat, startMarkerCluster, endMarkerCluster, geoJsonLayer]);
-    console.log(layers);
-    removeLayers(layers);
-    // map.removeLayer(startMarkerLayer);
-    // map.removeLayer(startMarkerHeat);
-    // map.removeLayer(endMarkerLayer);
-    // map.removeLayer(endMarkerHeat);
-    // map.removeLayer(startMarkerCluster);
-    // map.removeLayer(endMarkerCluster);
-    //map.removeLayer(geoJsonLayer);
+
+    console.log(layerGroupRemove);
+    removeLayers(layerGroupRemove);
     map.removeControl(overLayCon);
 
-    var arrayToSort = [];
+
     var boundaryPoints = [];
     var oneBike = [];
     data.forEach(function(doc, err) {
@@ -42,25 +35,21 @@ var route = {
       if (doc.bicycle_uuid == bicycle_uuid) {
         // number type of doc.started for sorting purpose
         var startUnsorted = parseFloat(doc.started);
-        console.log("oneBike :" +startUnsorted);
+        console.log("oneBike :" + startUnsorted);
         //create object with startUnsorted
         var o = {
           "started1": startUnsorted
         };
         //merge with doc
-      //var obj = Object.assign(doc, o); // not internet Explorer
+        //var obj = Object.assign(doc, o); // not internet Explorer
         var obj = $.extend(doc, o);
         //var obj = $.extend(true, doc, o);
         oneBike.push(obj);
       }
     });
+
     console.log("oneBike :" + oneBike);
     oneBike = sortDate(oneBike);
-    //sort oneBike by started/started1
-    // oneBike.sort(function(a, b) {
-    //   return a.started1 - b.started1;
-    // });
-
 
     if (oneBike.length == 0) {
       alert("Für diese FahrradId existiert kein Eintrag!");
@@ -94,7 +83,7 @@ var route = {
           var lng = parseFloat(oneBike[i].route[oneBike[i].route.length - 1].longitude);
           var started = getDate(oneBike[i].started);
           var ended = getDate(oneBike[i].ended);
-          console.log("started :" +started + "utc :" + oneBike[i].started);
+          console.log("started :" + started + "utc :" + oneBike[i].started);
           console.log("ended :" + ended + "utc :" + oneBike[i].ended);
           console.log(oneBike);
           endPoint.push(lat);
