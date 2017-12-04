@@ -5,15 +5,15 @@
 }
 
 
-/*.navbar-header {
-    float: left;
-    text-align: left;
-}*/
+.navbar-header {
+    float: middle;
+    /*text-align: center;*/
+}
 
 .navbar-brand {
   padding-bottom: 0px;
   vertical-align: middle;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 

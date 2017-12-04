@@ -8,14 +8,14 @@
   <script src="https://code.jquery.com/qunit/qunit-2.4.1.js"></script>
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
   <script src="../route.js"></script>
-  <script src="../rangelayers.js"></script>
+  <script src="../extractranges.js"></script>
   <script src="../utils.js"></script>
 
   <script>
     QUnit.test("exists", function(assert) {
 
       assert.expect(6);
-      assert.ok(rangelayers.getLayerTimeRange, "getLayerTimeRange exists");
+      assert.ok(extractranges.range, "range exists");
       assert.ok(route.singleTrack, "singleTrack exists");
       assert.ok(getPopup, "getPopup exists");
       assert.ok(sortDate, "sortDate exists");
@@ -27,7 +27,7 @@
 
     QUnit.test("Is type function", function(assert) {
       assert.expect(6);
-      assert.ok(typeof rangelayers.getLayerTimeRange === "function", "getLayerTimeRange is a function");
+      assert.ok(typeof extractranges.range === "function", "range is a function");
       assert.ok(typeof route.singleTrack === "function", "singleTrack is a function");
       assert.ok(typeof getPopup === "function", "getPopup is a function");
       assert.ok(typeof sortDate === "function", "sortDate is a function");

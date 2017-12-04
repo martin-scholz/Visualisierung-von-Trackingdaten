@@ -1,12 +1,13 @@
-
+//TileLayer für Satellitenkarte
 var googleLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
   maxZoom: 20,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
-
+//TileLayer für Straßenkarte
 var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 });
+//Karteninitialisierung
 var map = L.map('map', {
   layers: [googleLayer],
   maxZoom: 20
@@ -16,12 +17,12 @@ var baseMaps = {
   "Strassenkarte": osmLayer
 };
 
-
+//Overlay für Bezirksgrenzen
 var overLay = {
   "Bezirke": geoJsonLayer
 }
 
-
+//Marker Icons
 var blueIcon = new L.Icon({
   iconUrl: './images/marker-icon-2x-blue.png',
   iconSize: [20, 35],
@@ -52,40 +53,49 @@ var blackIcon = new L.Icon({
 });
 
 
-
+//Initialisierung der Layer bzw. Layergroups
 var startMarkerLayer = new L.LayerGroup();
 var endMarkerLayer = new L.LayerGroup();
 var singleTrackMarker = new L.LayerGroup();
 var startClusterGroup = new L.MarkerClusterGroup();
 var endClusterGroup = new L.MarkerClusterGroup();
-var startMarkerHeat = new L.LayerGroup(); //HeatmapLayer
-var endMarkerHeat = new L.LayerGroup(); //HeatmapLayer
+var startMarkerHeat = new L.LayerGroup();
+var endMarkerHeat = new L.LayerGroup();
 var startMarkerCluster = new L.LayerGroup();
 var endMarkerCluster = new L.LayerGroup();
-var endHeatmap = true;
-var layerGroup = new L.LayerGroup();
+
+// initiale slidervalues
 var sliderHoursVal_s = 0;
-var sliderHoursVal_e = 24;
+var sliderHoursVal_e = 23;
 var sliderDaysVal_s = 1;
 var sliderDaysVal_e = 7;
+
+//collection die für weitere Iterationen für die Tages- und Wochenabschnittswahl übergeben wird.
 var dataForSliders = [];
+
+//threshold for 7-Tages Warnhinweis
 var threshold;
+
+// collection mit allen auszuwertenden Trackingdaten
 var data = [];
-var layerGroupRemove = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat,startMarkerCluster,endMarkerCluster]);
-var layerGroupClear = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat,startClusterGroup,endClusterGroup]);
 
+// Layergruppierung für Layer, die gemeinsam entfernt werden
+var layerGroupRemove = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat, startMarkerCluster, endMarkerCluster]);
+// Layergruppierung für Layer, die gemeinsam geleert werden
+var layerGroupClear = L.layerGroup([startMarkerLayer, endMarkerLayer, startMarkerHeat, endMarkerHeat, startClusterGroup, endClusterGroup]);
 
+//optionen für polylines
 var polylineOptions = {
   color: 'blue',
   weight: 6,
   opacity: 0.9
 };
-var pickerVal_start;
-var pickerVal_end;
+
+// boolean to pass for different mouse-events on marker in "Ansicht Route" or "Ansicht Marker, Heatmap, Cluster-Marker"
 var singletrack = false;
 
 
-
+//Layers/Overlays Marker, Heatmap, Cluster-Marker
 overLays = {
   "Marker (Start)": startMarkerLayer,
   "Heatmap (Start)": startMarkerHeat,
@@ -93,14 +103,15 @@ overLays = {
   "Marker (End)": endMarkerLayer,
   "Heatmap (End)": endMarkerHeat,
   "MarkerCluster (End)": endMarkerCluster,
-  "Bezirke (Start)": geoJsonLayer
+  "Bezirke": geoJsonLayer
 }
 
+// Radiobuttons + Checkbox für die Auswahl der Basiskarten und Ebenen
 var overLayCon = L.control.layers(baseMaps, overLays);
 overLayCon.addTo(map);
 
+//AJAX Request threshold
 $.getJSON('/getThreshold', function(result) {
-  //console.log(result);
   thresholdId = result._id;
   console.log(parseFloat(result.threshold));
   threshold = parseFloat(result.threshold);
@@ -109,28 +120,31 @@ $.getJSON('/getThreshold', function(result) {
     $("#spanOutputThreshold").text(threshold);
   });
 
+  //AJAX Request fragt alle auszuwertenden tracking-daten an
   $.getJSON('/getTrackdata', function(result) {
     console.log(result);
     data = result;
     var points = [];
     var sevenDays = 0;
     data.forEach(function(doc, err) {
-      if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 16717994) {
+      if (doc.started <= new Date().getTime() / 1000 && doc.started >= (new Date().getTime() / 1000) - 23670000) {
         sevenDays++;
         console.log(sevenDays);
       }
     });
 
-
+    //Anweisungen bei Überschreitung der Schwellenwertes
     if (threshold < sevenDays) {
       $('input[name="daterange"]').data('daterangepicker').setStartDate(moment().subtract('days', 7));
       console.log(threshold);
-      rangelayers.getLayerTimeRange(Date.parse(Date()) - 16717994000, Date.parse(Date()));
+      //für die Extraction der zeitraumspezifischen Daten (die letzten 7  Tage) wird ein Zeitraum übergeben
+      extractranges.range(Date.parse(Date()) - 23670000000, Date.parse(Date()));
       alert("In der letzten Woche wurden  " + " " + sevenDays + " " + " Fahrräder gestohlen gemeldet! ");
       threshold = 0;
 
     } else {
-      rangelayers.getLayerTimeRange(1483264800000, Date.parse(Date()));
+      //es wird der gesamte Zeitraum übergeben
+      extractranges.range(1483264800000, Date.parse(Date()));
     }
   });
 });

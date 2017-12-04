@@ -45,12 +45,10 @@ $(function() {
       cancelLabel: 'Abbrechen',
     }
   }, function(start, end, label) {
-    //alert("A new date range was chosen: " + start.format('YYYY/MM/DD/h') + ' to ' + end.format('YYYY/MM/DD/h'));
     console.log("start :" + start + " end: " + end);
 
-    clearLayers(layerGroupClear)
-      rangelayers.getLayerTimeRange(start, end);
-
+    clearLayers(layerGroupClear);
+    extractranges.range(start, end);
     $(document).ready(function() {
       var outputSpan = $("#spanOutputDays");
       $("#sliderDays").slider({
@@ -64,6 +62,7 @@ $(function() {
         values: [0, 24]
       })
       outputSpan.html(0 + "-" + 24);
-    });
+});
+
   });
 });

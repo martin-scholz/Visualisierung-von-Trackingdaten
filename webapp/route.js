@@ -22,7 +22,6 @@ var route = {
       });
     }
 
-    console.log(layerGroupRemove);
     removeLayers(layerGroupRemove);
     map.removeControl(overLayCon);
 
@@ -33,14 +32,14 @@ var route = {
 
 
       if (doc.bicycle_uuid == bicycle_uuid) {
-        // number type of doc.started for sorting purpose
+        // number Typ doc.started für Sortierzwecke
         var startUnsorted = parseFloat(doc.started);
         console.log("oneBike :" + startUnsorted);
-        //create object with startUnsorted
+        // objec tmit startUnsorted
         var o = {
           "started1": startUnsorted
         };
-        //merge with doc
+        //Vereinigung mit doc
         //var obj = Object.assign(doc, o); // not internet Explorer
         var obj = $.extend(doc, o);
         //var obj = $.extend(true, doc, o);

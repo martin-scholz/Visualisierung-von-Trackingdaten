@@ -1,10 +1,6 @@
 var createlayers = {
   s_pointsArray: [],
   e_pointsArray: [],
-  // s_pointsDay: [],
-  // e_pointsDay: [],
-  // s_pointsHours: [],
-  // e_pointsHours: [],
   createLayers: function(s_lat, s_lng, e_lat, e_lng, bicycle_uuid, started, ended, speed) {
     this.s_lat = s_lat;
     this.s_lng = s_lng;
@@ -56,7 +52,7 @@ var createlayers = {
       createlayers.s_pointsArray = [];
       createlayers.e_pointsArray = [];
 
-    
+
   }
 
 
