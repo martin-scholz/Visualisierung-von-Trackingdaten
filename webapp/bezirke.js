@@ -1,3 +1,4 @@
+// geoJSON-Objekt mit dem Bezirksgrenzen
 var geoJsonLayer = L.geoJson(berlin_bezirke, {
   style: function(feature) {
     switch (feature.properties.name) {

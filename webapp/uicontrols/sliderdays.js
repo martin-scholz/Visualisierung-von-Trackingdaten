@@ -1,3 +1,4 @@
+//Eventhandler und Optionen für Slider Wochenabschnitt
 (function() {
   $(document).ready(function() {
     var outputSpan = $("#spanOutputDays");
@@ -61,8 +62,9 @@
         console.log("hour_s: " + sliderHoursVal_s);
         console.log("hour_e: " + sliderHoursVal_e);
 
-      extractranges.days(sliderDaysVal_s,sliderDaysVal_e);  
-      createlayers.createHeatLayer();
+
+      extractranges.days(sliderDaysVal_s,sliderDaysVal_e);
+      
       }
     });
   });

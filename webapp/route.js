@@ -1,9 +1,14 @@
 var route = {
   singleTrack: function(bicycle_uuid) {
-    //console.log("hat den Layer :" + map.hasLayer(startMarkerLayer));
+
+    // Steuerelement für die Layerwahl muss für diese Ansicht entfernt werden
     map.removeControl(overLayCon);
+
+    // Radiobuttons für Basiskartenwahl wird neu erstellt der Kartewieder wieder hinzugefügt
     var overLayCon1 = L.control.layers(baseMaps);
     overLayCon1.addTo(map);
+
+    //Sidebarelemente werden "disabled"
     $('.form-control').attr('disabled', 'disabled');
     $('.btn-sm').attr('disabled', 'disabled');
 
@@ -16,6 +21,7 @@ var route = {
       });
     });
 
+    // Falls  Layergroup singleTrackMarker andere Layergroups(Marker) enthält werden sie entfernt
     if (singleTrackMarker) {
       singleTrackMarker.eachLayer(function(layer) {
         singleTrackMarker.removeLayer(layer);
@@ -23,11 +29,13 @@ var route = {
     }
 
     removeLayers(layerGroupRemove);
-    map.removeControl(overLayCon);
+    //map.removeControl(overLayCon);
 
 
     var boundaryPoints = [];
     var oneBike = [];
+
+    //Auslesen der ersten Koordinate des ersten Tracks und der letzten Koordinate des letzten Tracks für Start- und Endmarker einer Route
     data.forEach(function(doc, err) {
 
 
@@ -35,14 +43,14 @@ var route = {
         // number Typ doc.started für Sortierzwecke
         var startUnsorted = parseFloat(doc.started);
         console.log("oneBike :" + startUnsorted);
-        // objec tmit startUnsorted
+        // object mit startUnsorted
         var o = {
           "started1": startUnsorted
         };
         //Vereinigung mit doc
         //var obj = Object.assign(doc, o); // not internet Explorer
         var obj = $.extend(doc, o);
-        //var obj = $.extend(true, doc, o);
+
         oneBike.push(obj);
       }
     });
@@ -51,8 +59,12 @@ var route = {
     oneBike = sortDate(oneBike);
 
     if (oneBike.length == 0) {
+
+      //Hinweis falls es für diese Fahrrad-Id keinen Eintrag gibt
       alert("Für diese FahrradId existiert kein Eintrag!");
     } else {
+
+      // es wird die erste Koordinate und andere Trackindaten des ersten Element ausgelesen
       for (var i = 0; i < oneBike.length - 1; i++) {
         if (oneBike[i].route[0] != null) {
           var startPoint = [];
@@ -68,12 +80,16 @@ var route = {
           startMarker = L.marker(startPoint, {
             icon: blueIcon
           });
-          startmarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.9, true);
+
+          // Es werden Pop-usp und mouse-Events an die Marker angehängt
+          startmarker = markerFunctions(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.9, true);
+
+          // Die Marker werden einer Layergroup beigefügt
           startMarker.addTo(singleTrackMarker);
           break;
         }
       }
-
+// es wird die letzte Koordinate und andere Trackindaten des letzten Element ausgelesen,
       for (var i = oneBike.length - 1; i > 0; i--) {
         console.log("oneBikeLänge :" + oneBike.length);
         if (oneBike[i].route[oneBike[i].route.length - 1] != null) {
@@ -90,16 +106,16 @@ var route = {
           endMarker = L.marker(endPoint, {
             icon: redIcon
           });
-          endmarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.9, true);
+          endmarker = markerFunctions(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.9, true);
           endMarker.addTo(singleTrackMarker);
           break;
         }
       }
 
+      //Die Layergroup wird der Karte hinzugefügt
+      //map.addLayer(singleTrackMarker);
 
-      map.addLayer(singleTrackMarker);
-
-
+    // Auslesen aller Start- und Endpunkte eines Tracks
       oneBike.forEach(function(doc, err) {
         console.log("startedafter :" + doc.started);
         var startPoint = [];
@@ -120,7 +136,9 @@ var route = {
           startMarker = L.marker(startPoint, {
             icon: blueIcon
           });
-          startMarker = getPopup(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.0, true);
+
+          //Die Marker für Zwischenlagerumngsorte sollen unsichtbar sein :Opacity = 0.0
+          startMarker = markerFunctions(startMarker, lat, lng, bicycle_uuid, "start", started, speed, 0.0, true);
           startMarker.addTo(singleTrackMarker);
           var endPoint = [];
           var lat = parseFloat(doc.route[doc.route.length - 1].latitude);
@@ -130,13 +148,15 @@ var route = {
           endMarker = L.marker(endPoint, {
             icon: redIcon
           });
-          endMarker = getPopup(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.0, true);
+          endMarker = markerFunctions(endMarker, lat, lng, bicycle_uuid, "end", ended, speed, 0.0, true);
           endMarker.addTo(singleTrackMarker);
         }
-        //console.log("bikeID :" + bicycle_uuid);
+        // Bei Vorliegen mehrerer Tracks werden die Polylines farblich unterschieden
         var hue = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
         var polylinePoints = [];
         polylineOptions.color = hue;
+
+        // alle Koordinaten eines Tracks werden ausgelesen
         doc.route.forEach(function(doc, err) {
           var lat = parseFloat(doc.latitude);
           var lng = parseFloat(doc.longitude);
@@ -144,16 +164,17 @@ var route = {
           polylinePoints.push(new L.LatLng(lat, lng));
 
         });
-        //console.log(polylinePoints);
+
+        //LayerGroup wird der Karte angehängt
         map.addLayer(singleTrackMarker);
         polyline = new L.Polyline(polylinePoints, polylineOptions);
         singleTrackMarker.addLayer(polyline);
       });
 
-      //console.log(boundaryPoints);
+        //Skalierungsstufe wird der sofortigen Sichtbarkeit der Routenbrenzen angepasst
       var boundary = new L.Polyline(boundaryPoints, polylineOptions);
       map.fitBounds(boundary.getBounds());
-
+//Leaflet-Button zum Entfernen der Route wird erstellt
       var button = new L.Control.Button('Route löschen');
       button.addTo(map);
       button.on('click', function() {
@@ -161,9 +182,10 @@ var route = {
         map.removeLayer(singleTrackMarker);
         overLayCon.addTo(map);
         map.removeControl(button);
+
+        //Sidebarelemente werden "enabled"
         $('.form-control').attr('disabled', false);
         $('.btn-sm').attr('disabled', false);
-        //map.addLayer(startMarkerLayer);
         $(document).ready(function() {
           $("#sliderHours").slider({
             disabled: false

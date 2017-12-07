@@ -4,19 +4,23 @@ var express = require('express')
       ,app = express()
       ,fs = require('fs');
 
+
 // database connection
 var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/_ConnTrips');
+
 // MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
 // mongoose.connect(MONGOLAB_URI);
-mongoose.connect('mongodb://localhost/trips'); // local small
-//mongoose.connect('mongodb://localhost/_ConnTrips'); //local 2000
 
-// some environment variabless
+//Datenbank Verbindung wird hergestellt
+mongoose.connect('mongodb://localhost/trips'); // local small
+
+
+// Einige Umgebungsvariablen
 app.set('port', process.env.PORT || 3000);
-//app.set('views', __dirname + '/views');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+//Middlewarefunktionen
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -27,7 +31,7 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'webapp')));
 
-//dynamically include routes (Controller)
+//Controller werden dynamisch eingelesen
 fs.readdirSync('./controllers').forEach(function (file) {
   if(file.substr(-3) == '.js') {
       route = require('./controllers/' + file);
@@ -35,8 +39,8 @@ fs.readdirSync('./controllers').forEach(function (file) {
       console.log(file);
   }
 });
-// var route = require('./controllers/index');
-// route.controller(app);
+
+//Server-Erstellung
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

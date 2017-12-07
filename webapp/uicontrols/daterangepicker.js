@@ -1,3 +1,4 @@
+//Eventhandler und Optionen für Kalendersteuerelemet
 $(function() {
   //  moment.locale('de');
   $('input[name="daterange"]').daterangepicker({
@@ -45,10 +46,14 @@ $(function() {
       cancelLabel: 'Abbrechen',
     }
   }, function(start, end, label) {
-    console.log("start :" + start + " end: " + end);
-
+//    console.log("start :" + start + " end: " + end);
+// Vorhandene Layergroups müssen "geleert" werden
     clearLayers(layerGroupClear);
+
+    //Übergabe der UI-Werte an range()
     extractranges.range(start, end);
+
+    //Nach Betätigung des Kalendersteuerelemnts müssen die Slider resetet werden
     $(document).ready(function() {
       var outputSpan = $("#spanOutputDays");
       $("#sliderDays").slider({
@@ -59,9 +64,9 @@ $(function() {
     $(document).ready(function() {
       var outputSpan = $("#spanOutputHours");
       $("#sliderHours").slider({
-        values: [0, 24]
+        values: [0, 23]
       })
-      outputSpan.html(0 + "-" + 24);
+      outputSpan.html(0 + "-" + 23);
 });
 
   });

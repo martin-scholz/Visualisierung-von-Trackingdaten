@@ -9,15 +9,21 @@
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
   <script src="../route.js"></script>
   <script src="../extractranges.js"></script>
+  <script src="../createlayers.js"></script>
   <script src="../utils.js"></script>
 
   <script>
     QUnit.test("exists", function(assert) {
 
-      assert.expect(6);
+      assert.expect(11);
       assert.ok(extractranges.range, "range exists");
+      assert.ok(extractranges.hours , "hours exists");
+      assert.ok(extractranges.days , "days exists");
+      assert.ok(extractranges.getVisData ,"getVisData exists");
+      assert.ok(createlayers.createLayers ,"createLayers exists");
+      assert.ok(createlayers.createHeatLayer,"createHeatLayer exists");
       assert.ok(route.singleTrack, "singleTrack exists");
-      assert.ok(getPopup, "getPopup exists");
+      assert.ok(markerFunctions, "markerFunctions exists");
       assert.ok(sortDate, "sortDate exists");
       assert.ok(clearLayers, "clearLayers exists");
       assert.ok(removeLayers, "removeLayers exists");
@@ -26,10 +32,15 @@
 
 
     QUnit.test("Is type function", function(assert) {
-      assert.expect(6);
+      assert.expect(11);
       assert.ok(typeof extractranges.range === "function", "range is a function");
+      assert.ok(typeof extractranges.range === "function", "hours is a function");
+      assert.ok(typeof extractranges.days === "function", "days is a function");
+      assert.ok(typeof extractranges.getVisData === "function", "getVisData is a function");
+      assert.ok(typeof createlayers.createLayers === "function", "createLayers is a function");
+      assert.ok(typeof createlayers.createHeatLayer === "function", "createHeatLayer is a function");
       assert.ok(typeof route.singleTrack === "function", "singleTrack is a function");
-      assert.ok(typeof getPopup === "function", "getPopup is a function");
+      assert.ok(typeof markerFunctions === "function", "markerFunctions is a function");
       assert.ok(typeof sortDate === "function", "sortDate is a function");
       assert.ok(typeof clearLayers === "function", "clearLayers is a function");
       assert.ok(typeof removeLayers === "function", "removeLayers is a function");
@@ -64,19 +75,19 @@
         started1: 1491058416
       }], "sorted");
     });
-    QUnit.test("getPopupThrowsExceptionWithWrongNumberOfArgs", function(assert) {
+    QUnit.test("markerFunctionsThrowsExceptionWithWrongNumberOfArgs", function(assert) {
       assert.expect(2);
       assert.throws(function() {
-        getPopup(1);
+        markerFunctions(1);
       }, "Exception thrown");
       assert.throws(function() {
-        getPopup(1, 1, 1, 1, 1, 1, 1, 1, 1);
+        markerFunctions(1, 1, 1, 1, 1, 1, 1, 1, 1);
       }, "Exception thrown");
 
     });
-    QUnit.test("getPopupObjectTypeMarker", function(assert) {
+    QUnit.test("markerFunctionsObjectTypeMarker", function(assert) {
       var marker = L.marker();
-      assert.equal(typeof getPopup(marker, 1, 1, 1, 1, 1, 1, 1, 1) === "object", true, "is Type object");
+      assert.equal(typeof markerFunctions(marker, 1, 1, 1, 1, 1, 1, 1, 1) === "object", true, "is Type object");
     });
   </script>
 

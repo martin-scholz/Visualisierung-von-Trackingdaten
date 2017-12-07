@@ -5,10 +5,10 @@
 }
 
 
-.navbar-header {
-    float: middle;
-    /*text-align: center;*/
-}
+/*.navbar-header {
+    float: left;
+    text-align: center;
+}*/
 
 .navbar-brand {
   padding-bottom: 0px;

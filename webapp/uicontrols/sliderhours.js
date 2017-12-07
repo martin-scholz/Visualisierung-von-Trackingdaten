@@ -13,7 +13,7 @@
         sliderHoursVal_e = ui.values[1];
         extractranges.hours(sliderHoursVal_s,sliderHoursVal_e );
 
-        createlayers.createHeatLayer();
+        //createlayers.createHeatLayer();
       }
     });
   });

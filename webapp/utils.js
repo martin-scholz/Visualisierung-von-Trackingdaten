@@ -1,17 +1,18 @@
+// gibt Unix-Timestamp in lesbarer Form zurück
 function getDate(utc) {
   var dt = new Date(utc * 1000);
   return dt;
 
 }
 
-
+//gibt die Durchschnittsgeschwindigkeit eines Track szurück
 function getSpeed(duration, distance) {
   var speed = Math.round((distance / duration) * 3.6);
   return speed;
 
 }
-
-function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
+//setzt die Deckkraft und die mouse-events auf die Marker und gibt einen Marker zurück
+function markerFunctions(marker, lat, lng, bicycle_uuid, label, startend, speed, opacity, singletrack) {
 
   if (arguments.length != 9) {
     throw new Error("9 arguments expected");
@@ -33,20 +34,23 @@ function getPopup(marker, lat, lng, bicycle_uuid, label, startend, speed, opacit
     return marker;
   }
 }
+
+//sortiert ein Array aufsteigend nach der Startzeit
 function sortDate(oneBike) {
   oneBike.sort(function(a, b) {
     return a.started1 - b.started1;
   });
-  console.log("oneBike after :" + oneBike);
   return oneBike;
 }
 
+//entfernt eine Gruppe von Layergroups von der Karte
 function removeLayers(layers){
   layers.eachLayer(function(doc, err) {
     map.removeLayer(doc);
   });
 }
 
+//"leert" die Layer einer Layergroup
 function clearLayers(layers) {
   layers.eachLayer(function(doc, err) {
     doc.clearLayers();
