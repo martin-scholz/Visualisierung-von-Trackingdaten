@@ -33,7 +33,7 @@ block content
           #sliderHours(title="Sie können einen Tagesabschnitt von 1 bis 24 Stunden wählen" )
           br
           br
-          legend Geben Sie bitte eine FahrradId ein:
+          legend Geben Sie bitte eine Fahrrad-Id ein:
           p
             input#bikeId.form-control(type='String', name='bikeId', placeholder='93fed1b3-b28f-4ed8-a4c4-4fe450873f85', value='', title="Ihre Eingabe muss folgendes Format haben:" + "\n93fed1b3-b28f-4ed8-a4c4-4fe450873f85" )
           a#bikeIdBtn.btn.btn-primary.btn-sm
@@ -43,7 +43,7 @@ block content
           br
           legend Geben Sie bitte einen Schwellenwert ein:
           p
-            input#threshold.form-control( type = "Number" , min = "1", name='threshold', placeholder='', value='', title="Sie müssen eine Zahl eingeben!")
+            input#threshold.form-control( type = "Number" , min = "1", name='threshold', placeholder='', value='', title="Wenn die Zahl der Diebstähle, die in den letzten 7 Tagen stattgefunden hat, diesen Schwellenwert übersteigt, wird ein Warnhinweis durch eine Alertbox gegeben. \nUm den Schwellenwert zu ändern müssen eine Zahl eingeben!")
           a#thresholdBtn.btn.btn-primary.btn-sm
             i.glyphicon.glyphicon-refresh
             |               Aktualisieren

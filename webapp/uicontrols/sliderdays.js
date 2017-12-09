@@ -1,7 +1,15 @@
-//Eventhandler und Optionen für Slider Wochenabschnitt
+/*
+sliderdays.js
+Eventhandler und Optionen für Slider Wochenabschnitt
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
+
 (function() {
   $(document).ready(function() {
     var outputSpan = $("#spanOutputDays");
+    outputSpan.html("So" + "-" + "Sa");
     $("#sliderDays").slider({
       range: true,
       min: 1,
@@ -64,7 +72,7 @@
 
 
       extractranges.days(sliderDaysVal_s,sliderDaysVal_e);
-      
+
       }
     });
   });

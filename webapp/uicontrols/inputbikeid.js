@@ -1,4 +1,11 @@
-//Clickhandler zum Abschicken der Eingabe iner Fahrrad-Id
+/*
+inputbikeid.js
+Clickhandler zum Abschicken der Eingabe einer Fahrrad-Id
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
+
 (function() {
 $(document).ready(function() {
   $("#bikeIdBtn.btn.btn-primary").click(function() {

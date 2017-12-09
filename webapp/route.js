@@ -1,10 +1,17 @@
+/*
+route.js
+erstellt eine Route und bringt sie zur Ansicht
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 var route = {
   singleTrack: function(bicycle_uuid) {
 
     // Steuerelement für die Layerwahl muss für diese Ansicht entfernt werden
     map.removeControl(overLayCon);
 
-    // Radiobuttons für Basiskartenwahl wird neu erstellt der Kartewieder wieder hinzugefügt
+    // Radiobuttons für Basiskartenwahl wird neu erstellt und der Karte wieder wieder hinzugefügt
     var overLayCon1 = L.control.layers(baseMaps);
     overLayCon1.addTo(map);
 
@@ -89,7 +96,7 @@ var route = {
           break;
         }
       }
-// es wird die letzte Koordinate und andere Trackindaten des letzten Element ausgelesen,
+      // es wird die letzte Koordinate und andere Trackindaten des letzten Element ausgelesen,
       for (var i = oneBike.length - 1; i > 0; i--) {
         console.log("oneBikeLänge :" + oneBike.length);
         if (oneBike[i].route[oneBike[i].route.length - 1] != null) {
@@ -115,7 +122,7 @@ var route = {
       //Die Layergroup wird der Karte hinzugefügt
       //map.addLayer(singleTrackMarker);
 
-    // Auslesen aller Start- und Endpunkte eines Tracks
+      // Auslesen aller Start- und Endpunkte eines Tracks
       oneBike.forEach(function(doc, err) {
         console.log("startedafter :" + doc.started);
         var startPoint = [];
@@ -171,11 +178,11 @@ var route = {
         singleTrackMarker.addLayer(polyline);
       });
 
-        //Skalierungsstufe wird der sofortigen Sichtbarkeit der Routenbrenzen angepasst
+      //Skalierungsstufe wird der sofortigen Sichtbarkeit der Routenbrenzen angepasst
       var boundary = new L.Polyline(boundaryPoints, polylineOptions);
       map.fitBounds(boundary.getBounds());
-//Leaflet-Button zum Entfernen der Route wird erstellt
-      var button = new L.Control.Button('Route löschen');
+      //Leaflet-Button zum Entfernen der Route wird erstellt
+      var button = new L.Control.Button('Route entfernen');
       button.addTo(map);
       button.on('click', function() {
         map.removeControl(overLayCon1);

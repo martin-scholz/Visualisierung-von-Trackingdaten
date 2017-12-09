@@ -1,4 +1,10 @@
-// geoJSON-Objekt mit dem Bezirksgrenzen
+/*
+bezirke.js
+geoJSON-Objekt mit den Bezirksgrenzen und farblicher Unterscheidung
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 var geoJsonLayer = L.geoJson(berlin_bezirke, {
   style: function(feature) {
     switch (feature.properties.name) {

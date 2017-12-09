@@ -1,3 +1,10 @@
+/*
+index.js
+initiert Karten, AJAX-Requests für die zu visualisierenden Daten
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 //TileLayer für Satellitenkarte
 var googleLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
   maxZoom: 20,
@@ -95,7 +102,7 @@ var polylineOptions = {
 var singletrack = false;
 
 
-//Layers/Overlays Marker, Heatmap, Cluster-Marker
+//Layers/Overlays für Marker, Heatmap, Cluster-Marker
 overLays = {
   "Marker (Start)": startMarkerLayer,
   "Heatmap (Start)": startMarkerHeat,
@@ -109,6 +116,7 @@ overLays = {
 // Radiobuttons + Checkbox für die Auswahl der Basiskarten und Ebenen
 var overLayCon = L.control.layers(baseMaps, overLays);
 overLayCon.addTo(map);
+$(".leaflet-control-layers").addClass("leaflet-control-layers-expanded");
 
 //AJAX Request threshold
 $.getJSON('/getThreshold', function(result) {

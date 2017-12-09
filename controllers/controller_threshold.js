@@ -1,3 +1,9 @@
+/*
+controller_threshold.js
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 var express = require('express');
 var router = express.Router();
 var assert = require('assert');

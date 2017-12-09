@@ -1,3 +1,10 @@
+/*
+extractranges.js
+enthält Funktionen mit Bedingungen zur Extraktion der zu visualisierenden Daten
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 var extractranges = {
 
   // Liest anhand der übergebenen UI-Werte (Zeitraum) die zu visualisiernden Daten aus
@@ -16,7 +23,7 @@ var extractranges = {
           lng = null;
         } else {
 
-          // die zu visualisiernden Daten werden üübergeben
+          // die zu visualisiernden Daten werden übergeben
           extractranges.getVisData(doc);
 
         }

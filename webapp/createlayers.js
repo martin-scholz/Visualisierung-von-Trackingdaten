@@ -1,4 +1,12 @@
-//erstellt die Marker, Befüllt die Ebenen Marker, Heatmao, Cluster-Marker
+/*
+createlayers.js
+erstellt die Marker, befüllt die Ebenen Marker, Heatmap, Cluster-Marker
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
+
+
 var createlayers = {
   s_pointsArray: [],
   e_pointsArray: [],

@@ -1,11 +1,17 @@
-//Eventhandler und Optionen für Kalendersteuerelemet
+/*
+daterangepicker.js
+Eventhandler und Optionen für Kalendersteuerelemet
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
+
 $(function() {
   //  moment.locale('de');
   $('input[name="daterange"]').daterangepicker({
     startDate: '1. Jan \'17  00:00',
     timePicker: true,
     timePicker24Hour: true,
-    //timePickerIncrement: 30,
     showCustomRangeLabel: false,
     alwaysShowCalendars: true,
     ranges: {

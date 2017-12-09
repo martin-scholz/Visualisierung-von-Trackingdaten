@@ -1,4 +1,11 @@
-// Clickhandler zum Abschicken der Eingabe zur Schwellenwertänderung
+/*
+inputthreshold.js
+Clickhandler zum Abschicken der Eingabe zur Schwellenwertänderung
+version : 1.0.0
+datum: 8.12.2017
+author : Martin Scholz
+*/
+
 (function() {
   $(document).ready(function() {
     $("#thresholdBtn.btn.btn-primary").click(function() {
@@ -6,7 +13,7 @@
       data.threshold = $('#threshold.form-control').val();
       if ($.isNumeric(data.threshold) && data.threshold >= 0) {
 
-      // POST-Request 
+      // POST-Request
         $.post('/updateThreshold', {
           threshold: data.threshold
         }).then(function(data) {

@@ -1,3 +1,10 @@
+/*
+utils.js
+enthält Funktionen, die immer wieder an unterschiedlichen Stellen der Anwendung gebraucht werden
+version : 1.0.0
+datum: 8.12.2017
+autor : Martin Scholz
+*/
 // gibt Unix-Timestamp in lesbarer Form zurück
 function getDate(utc) {
   var dt = new Date(utc * 1000);
