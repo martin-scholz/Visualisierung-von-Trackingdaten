@@ -92,7 +92,7 @@ var extractranges = {
     var started = getDate(doc.started);
     var ended = getDate(doc.ended);
     var speed = getSpeed(doc.duration_sec, doc.distance_m);
-    createlayers.createLayers(s_lat, s_lng, e_lat, e_lng, bicycle_uuid, started, ended, speed, );
+    createlayers.createLayers(s_lat, s_lng, e_lat, e_lng, bicycle_uuid, started, ended, speed);
   }
 
 };

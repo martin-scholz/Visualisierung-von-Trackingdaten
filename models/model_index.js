@@ -12,5 +12,5 @@ var JsonSchema = new Schema({
   type: Schema.Types.Mixed
 });
 
-var Json_in = mongoose.model('Json_in', JsonSchema, '_trip');
+var Json_in = mongoose.model('Json_in', JsonSchema, '_trips');
 module.exports = Json_in;

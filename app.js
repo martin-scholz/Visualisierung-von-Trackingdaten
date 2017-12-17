@@ -15,11 +15,11 @@ var express = require('express')
 // database connection
 var mongoose = require('mongoose');
 
-// MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
-// mongoose.connect(MONGOLAB_URI);
+MONGOLAB_URI = 'mongodb://hotomama:mamahoto0@ds143774.mlab.com:43774/trips';
+mongoose.connect(MONGOLAB_URI);
 
 //Datenbank Verbindung wird hergestellt
-mongoose.connect('mongodb://localhost/trips'); // local small
+//mongoose.connect('mongodb://localhost/trips'); // local small
 
 
 // Einige Umgebungsvariablen

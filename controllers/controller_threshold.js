@@ -19,8 +19,8 @@ module.exports.controller = function(app) {
       threshold: req.body.threshold
     };
     console.log("Requestbody :" + req.body.threshold);
-    var id = ObjectId("59fa31a524a41d7f0c81a5a3"); // local small
-    //var id = ObjectId("59f767f9f36d282363088466"); //mlab Heroku
+  //  var id = ObjectId("59fa31a524a41d7f0c81a5a3"); // local small
+    var id = ObjectId("59f767f9f36d282363088466"); //mlab Heroku
     //var id = ObjectId("59eb9f24daceff7db8dfdf61");
 
 
@@ -42,8 +42,8 @@ module.exports.controller = function(app) {
 //HTTP-get-Request zum AUslesen des Schwellenwertes
   app.get('/getThreshold', function(req, res) {
     Json_th.findOne({
-      "_id": ObjectId("59fa31a524a41d7f0c81a5a3")
-      //"_id": ObjectId("59f767f9f36d282363088466") mLab Heroku
+      //"_id": ObjectId("59fa31a524a41d7f0c81a5a3")
+      "_id": ObjectId("59f767f9f36d282363088466") //mLab Heroku
       //"_id": ObjectId("59eb9f24daceff7db8dfdf61")
     }, function(err, doc) {
       res.json(doc);

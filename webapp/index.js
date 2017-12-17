@@ -126,6 +126,7 @@ $.getJSON('/getThreshold', function(result) {
   $(document).ready(function() {
     $('#threshold.form-control').val(threshold);
     $("#spanOutputThreshold").text(threshold);
+    tooltipThreshold("#spanOutputThreshold");
   });
 
   //AJAX Request fragt alle auszuwertenden tracking-daten an

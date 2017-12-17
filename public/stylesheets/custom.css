@@ -1,25 +1,15 @@
 .navbar {
-  background-color: black
-
-
+  background-color: black;
 }
-
-
-/*.navbar-header {
-    float: left;
-    text-align: center;
-}*/
-
-.navbar-brand {
+nav.navbar.navbar-default .container-fluid .navbar-header .navbar-brand{
+  color:#bfbfbf;
+}
+.navbar-default.navbar-header.navbar-brand {
   padding-bottom: 0px;
-  vertical-align: middle;
   font-size: 17px;
 }
 
 
-/*.well{
-  height:560px;
-}*/
 
 .well legend {
   font-size: 15px;

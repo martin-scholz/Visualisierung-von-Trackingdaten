@@ -59,6 +59,7 @@ L.Control.Button = L.Control.extend({
     onRemove: function (map) {
         if (this._container && this._map) {
             L.DomEvent.off(this._container, 'click', this._fireClick, this);
+            var stop = L.DomEvent.stopPropagation;
             L.DomEvent.off(this._container, 'mousedown', stop)
                       .off(this._container, 'touchstart', stop)
                       .off(this._container, 'dblclick', stop)

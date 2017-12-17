@@ -8,6 +8,9 @@ author : Martin Scholz
 
 (function() {
   $(document).ready(function() {
+    tooltipThreshold("#threshold.form-control");
+    tooltipThreshold("#tooltip");
+
     $("#thresholdBtn.btn.btn-primary").click(function() {
       var data = {};
       data.threshold = $('#threshold.form-control').val();

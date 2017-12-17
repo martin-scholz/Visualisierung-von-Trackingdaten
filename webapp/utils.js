@@ -51,7 +51,7 @@ function sortDate(oneBike) {
 }
 
 //entfernt eine Gruppe von Layergroups von der Karte
-function removeLayers(layers){
+function removeLayers(layers) {
   layers.eachLayer(function(doc, err) {
     map.removeLayer(doc);
   });
@@ -62,4 +62,22 @@ function clearLayers(layers) {
   layers.eachLayer(function(doc, err) {
     doc.clearLayers();
   });
+}
+
+//generiert fie Tooltips für die Änderung des Schwellenwertes
+function tooltipThreshold(selector) {
+  $(selector).qtip({
+    content: {
+      text: "Wenn die Zahl der Diebstähle, die in den letzten 7 Tagen stattgefunden hat, diesen Schwellenwert übersteigt, wird ein Warnhinweis durch eine Alertbox gegeben."
+    },
+    events: {
+      render: function(event, api) {
+        // Grab the tip element
+        var elem = api.elements.tip;
+      }
+    },
+    position: {
+      viewport: $(window) // Adjust position to keep within the window
+    }
+  })
 }
